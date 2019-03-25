@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[CentOS7.4搭建shadowsocks]]></title>
+    <url>%2F2019%2F03%2F02%2FCentOS7-4%E6%90%AD%E5%BB%BAshadowsocks%2F</url>
+    <content type="text"><![CDATA[安装 pippip是 python 的包管理工具。在本文中将使用 python 版本的 shadowsocks，此版本的 shadowsocks 已发布到 pip 上，因此我们需要通过 pip 命令来安装。 在控制台执行以下命令安装 pip： 12[root@server ~]# curl &quot;https://bootstrap.pypa.io/get-pip.py&quot; -o &quot;get-pip.py&quot;[root@server ~]# python get-pip.py 安装配置 shadowsocks在控制台执行以下命令安装 shadowsocks： 12[root@server ~]# pip install --upgrade pip[root@server ~]# pip install shadowsocks 安装完成后，需要创建shadowsocks的配置文件/etc/shadowsocks.json，编辑内容如下： 123456789101112[root@server ~]# vim /etc/shadowsocks.json&#123; &quot;server&quot;: &quot;0.0.0.0&quot;, &quot;local_address&quot;: &quot;127.0.0.1&quot;, &quot;local_port&quot;: 1080, &quot;port_password&quot;: &#123; &quot;8080&quot;: &quot;填写密码&quot;, &quot;8081&quot;: &quot;填写密码&quot; &#125;, &quot;timeout&quot;: 600, &quot;method&quot;: &quot;aes-256-cfb&quot;&#125; 说明： method为加密方法，可选aes-128-cfb, aes-192-cfb, aes-256-cfb, bf-cfb, cast5-cfb, des-cfb, rc4-md5, chacha20, salsa20, rc4, tableport_password为端口对应的密码，可使用密码生成工具生成一个随机密码以上两项信息在配置 shadowsocks 客户端时需要配置一致，具体说明可查看 shadowsocks 的帮助文档。 如果你不需要配置多个端口的话，仅配置单个端口，则可以使用以下配置： 123456&#123; &quot;server&quot;: &quot;0.0.0.0&quot;, &quot;server_port&quot;: 8080, &quot;password&quot;: &quot;填写密码&quot;, &quot;method&quot;: &quot;aes-256-cfb&quot;&#125; 说明： server_port为服务监听端口 password为密码 同样的以上两项信息在配置 shadowsocks 客户端时需要配置一致。 配置自启动编辑shadowsocks 服务的启动脚本文件，内容如下： 12345678910[root@server ~]# vim /etc/systemd/system/shadowsocks.service[Unit]Description=Shadowsocks[Service]TimeoutStartSec=0ExecStart=/usr/bin/ssserver -c /etc/shadowsocks.json[Install]WantedBy=multi-user.target 执行以下命令启动 shadowsocks 服务： 12[root@server ~]# systemctl enable shadowsocks[root@server ~]# systemctl start shadowsocks 检查 shadowsocks 服务是否已成功启动，可以执行以下命令查看服务的状态： 1systemctl status shadowsocks -l 确认服务启动成功后，配置防火墙规则，开放你配置的端口，不然客户端是无法连接的： 123456[root@server ~]# firewall-cmd --zone=public --add-port=8080/tcp --permanentsuccess[root@server ~]# firewall-cmd --zone=public --add-port=8081/tcp --permanentsuccess[root@server ~]# firewall-cmd --reloadsuccess 附上一键安装脚本代码： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#!/bin/bash# Install Shadowsocks on CentOS 7echo &quot;Installing Shadowsocks...&quot;random-string()&#123; cat /dev/urandom | tr -dc &apos;a-zA-Z0-9&apos; | fold -w $&#123;1:-32&#125; | head -n 1&#125;CONFIG_FILE=/etc/shadowsocks.jsonSERVICE_FILE=/etc/systemd/system/shadowsocks.serviceSS_PASSWORD=$(random-string 32)SS_PORT=8388SS_METHOD=aes-256-cfbSS_IP=`ip route get 1 | awk &apos;&#123;print $NF;exit&#125;&apos;`GET_PIP_FILE=/tmp/get-pip.py# install pipcurl &quot;https://bootstrap.pypa.io/get-pip.py&quot; -o &quot;$&#123;GET_PIP_FILE&#125;&quot;python $&#123;GET_PIP_FILE&#125;# install shadowsockspip install --upgrade pippip install shadowsocks# create shadowsocls configcat &lt;&lt;EOF | sudo tee $&#123;CONFIG_FILE&#125;&#123; &quot;server&quot;: &quot;0.0.0.0&quot;, &quot;server_port&quot;: $&#123;SS_PORT&#125;, &quot;password&quot;: &quot;$&#123;SS_PASSWORD&#125;&quot;, &quot;method&quot;: &quot;$&#123;SS_METHOD&#125;&quot;&#125;EOF# create servicecat &lt;&lt;EOF | sudo tee $&#123;SERVICE_FILE&#125;[Unit]Description=Shadowsocks[Service]TimeoutStartSec=0ExecStart=/usr/bin/ssserver -c $&#123;CONFIG_FILE&#125;[Install]WantedBy=multi-user.targetEOF# start servicesystemctl enable shadowsockssystemctl start shadowsocks# view service statussleep 5systemctl status shadowsocks -lecho &quot;================================&quot;echo &quot;&quot;echo &quot;Congratulations! Shadowsocks has been installed on your system.&quot;echo &quot;You shadowsocks connection info:&quot;echo &quot;--------------------------------&quot;echo &quot;server: $&#123;SS_IP&#125;&quot;echo &quot;server_port: $&#123;SS_PORT&#125;&quot;echo &quot;password: $&#123;SS_PASSWORD&#125;&quot;echo &quot;method: $&#123;SS_METHOD&#125;&quot;echo &quot;--------------------------------&quot; 配置客户端我这里配置的是windows的客户端，挺方便的，点击即用，不需要安装。 Windows客户端下载地址：https://github.com/shadowsocks/shadowsocks-windows/releases Mac客户端下载地址：https://github.com/shadowsocks/ShadowsocksX-NG/releases Android客户端下载地址：https://github.com/shadowsocks/shadowsocks-android/releases 配置BBR加速什么是BBR：TCP BBR是谷歌出品的TCP拥塞控制算法。BBR目的是要尽量跑满带宽，并且尽量不要有排队的情况。BBR可以起到单边加速TCP连接的效果。 Google提交到Linux主线并发表在ACM queue期刊上的TCP-BBR拥塞控制算法。继承了Google“先在生产环境上部署，再开源和发论文”的研究传统。TCP-BBR已经再YouTube服务器和Google跨数据中心的内部广域网(B4)上部署。由此可见出该算法的前途。 TCP-BBR的目标就是最大化利用网络上瓶颈链路的带宽。一条网络链路就像一条水管，要想最大化利用这条水管，最好的办法就是给这跟水管灌满水。 BBR解决了两个问题： 在有一定丢包率的网络链路上充分利用带宽。非常适合高延迟，高带宽的网络链路。 降低网络链路上的buffer占用率，从而降低延迟。非常适合慢速接入网络的用户。Google 在 2016年9月份开源了他们的优化网络拥堵算法BBR，最新版本的 Linux内核(4.9-rc8)中已经集成了该算法。 对于TCP单边加速，并非所有人都很熟悉，不过有另外一个大名鼎鼎的商业软件“锐速”，相信很多人都清楚。特别是对于使用国外服务器或者VPS的人来说，效果更佳。 BBR项目地址：https://github.com/google/bbr 升级内核，第一步首先是升级内核到支持BBR的版本： 1.yum更新系统版本：yum update2.查看系统版本： 123[root@server ~]# cat /etc/redhat-release CentOS Linux release 7.4.1708 (Core) [root@server ~]# 3.安装elrepo并升级内核： 123[root@server ~]# rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org[root@server ~]# rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm[root@server ~]# yum --enablerepo=elrepo-kernel install kernel-ml -y 4.更新grub文件并重启系统： 12345678[root@server ~]# egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \&apos;CentOS Linux 7 Rescue 8619ff5e1306499eac41c02d3b23868e (4.14.14-1.el7.elrepo.x86_64)CentOS Linux (4.14.14-1.el7.elrepo.x86_64) 7 (Core)CentOS Linux (3.10.0-693.11.6.el7.x86_64) 7 (Core)CentOS Linux (3.10.0-693.el7.x86_64) 7 (Core)CentOS Linux (0-rescue-c73a5ccf3b8145c3a675b64c4c3ab1d4) 7 (Core)[root@server ~]# grub2-set-default 0[root@server ~]# reboot 5.重启完成后查看内核是否已更换为4.14版本： 123[root@server ~]# uname -r4.14.14-1.el7.elrepo.x86_64[root@server ~]# 6.开启bbr： 123[root@server ~]# vim /etc/sysctl.conf # 在文件末尾添加如下内容net.core.default_qdisc = fqnet.ipv4.tcp_congestion_control = bbr 7.加载系统参数： 123456[root@vultr ~]# sysctl -pnet.ipv6.conf.all.accept_ra = 2net.ipv6.conf.eth0.accept_ra = 2net.core.default_qdisc = fqnet.ipv4.tcp_congestion_control = bbr[root@vultr ~]# 如上，输出了我们添加的那两行配置代表正常。 8.确定bbr已经成功开启： 12345[root@vultr ~]# sysctl net.ipv4.tcp_available_congestion_controlnet.ipv4.tcp_available_congestion_control = bbr cubic reno[root@vultr ~]# lsmod | grep bbrtcp_bbr 20480 2 [root@vultr ~]# 输出内容如上，则表示bbr已经成功开启。]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>linux</tag>
+        <tag>博客</tag>
+        <tag>ss</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用的环境安装]]></title>
+    <url>%2F2019%2F01%2F29%2Flinux%E5%B8%B8%E7%94%A8%E7%9A%84%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%2F</url>
+    <content type="text"><![CDATA[以tar.xz结尾的压缩包解压方式先 xz -d ***.tar.xz 得到tar结尾的包 然后 tar -xvf ***.tar 解压 Linux安装rz/sz命令 在SecureCRT这样的ssh登录软件里, 通过在Linux界面里输入rz/sz命令来上传/下载文件. 对于某些linux版本, rz/sz默认没有安装所以需要手工安装。 sz: 将选定的文件发送(send)到本地机器; rz：运行该命令会弹出 一个文件选择窗口, 从本地选择文件上传到服务器(receive). 最简单的是yum安装 yum install lrzsz 没有网络的时候可以下载安装包安装 首先通过sftp工具把安 装文件上传到tmp目录下. # cd tmp # wget http://www.ohse.de/uwe/releases/lrzsz-0.12.20.tar.gz # tar zxvf lrzsz-0.12.20.tar.gz &amp;&amp; cd lrzsz-0.12.20 # ./configure &amp;&amp; make &amp;&amp; make install 上面安装过程默认把lsz和lrz安装到了/usr/local/bin/目录下, 下面创建软链接, 并命名为rz/sz: # cd /usr/bin # ln -s /usr/local/bin/lrz rz # ln -s /usr/local/bin/lsz sz Linux安装wgetyum -y install wget Linux安装Gityum install git-core Linux安装Node.js不推荐在线安装，推荐编译安装：![](https://i.imgur.com/3ATr77h.png) 官网获取到下载地址 wget https://nodejs.org/dist/v10.15.0/node-v10.15.0.tar.gz 解压 tar -zxvf node-v10.15.0.tar.gz 解压完成后依次执行： cd node-v10.15.0 ./configure make（编译时间较长，耐心等待） 编译完成后，使用下面命令安装： sudo make install 这里一定要加sudo 此外，我们还可以使用git在github上将源码clone下来，同样执行以上命令编译安装。执行./configure可能会提示确实c++框架，安装即可 sudo yum install gcc gcc-c++ 编译安装时间太长而且容易出错，可以使用yum安装yum安装正常情况 yum install nodejs，但是会报错，原来 CentOS 的官方源并没有 Nodejs 的安装包，安装需要添加 EPEL 源，执行以下命令安装：参考 sudo rpm -ivh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6 sudo yum -y install nodejs npm --enablerepo=epel]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>学习</tag>
+        <tag>命令</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux docker Shadowsocks 常规操作]]></title>
+    <url>%2F2019%2F01%2F25%2Flinux%20docker%20Shadowsocks%20%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[linux上跑ss，真的很简单第一步先装docker,CentOS最好是64位的，最好是CentOS7,6的话没试过应该有其他的办法 先检查内核版本 $ uname -r 返回的值大于3.10即可。 使用 sudo 或 root 权限的用户登入终端。 确保yum是最新的 $ yum update 安装 docker yum install docker -y 启动 docker 服务 service docker start chkconfig docker on 拉取 docker 镜像 docker pull oddrationale/docker-shadowsocks 运行 docker 镜像 docker run -d -p 12345:12345 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 12345 -k welcome -m aes-256-cfb -d参数允许 docker 常驻后台运行 -p来指定要映射的端口，这里端口号统一保持一致即可。例如：12345 -s服务器 IP 地址，不用动 -k后面设置你的 VPN 的密码，比如：welcome -m指定加密方式 运行docker ps -a查看容器是否已成功运行起来了。 docker的常用命令汇总1、docker的启动、停止、重启[root@localhost ~]# service docker restart Redirecting to /bin/systemctl restart docker.service [root@localhost ~]# service docker stop Redirecting to /bin/systemctl stop docker.service [root@localhost ~]# service docker start Redirecting to /bin/systemctl start docker.service 2、docker创建一个容器[root@localhost ~]# docker run -it -v /docker_test:/yufei --name yufei_6 centos [root@724e7701f0d4 /]# -i：允许我们对容器内的 (STDIN) 进行交互 -t：在新容器内指定一个伪终端或终端 -v：是挂在宿机目录， /docker_test是宿机目录，/yufei是当前docker容器的目录，宿机目录必须是绝对的。 --name：是给容器起一个名字，可省略，省略的话docker会随机产生一个名字 3、docker启动的容器列表[root@localhost ~]# docker ps CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 724e7701f0d4 centos &quot;/bin/bash&quot; 4 minutes ago Up 4 minutes yufei_6 f9097691663e centos &quot;/bin/bash&quot; 5 minutes ago Up 5 minutes yufei_5 [root@localhost ~]# 4、查看docker创建的所有容器[root@localhost ~]# docker ps -a CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 724e7701f0d4 centos &quot;/bin/bash&quot; 5 minutes ago Up 5 minutes yufei_6 f9097691663e centos &quot;/bin/bash&quot; 6 minutes ago Up 6 minutes yufei_5 e59a540fb979 centos &quot;/bin/base&quot; 6 minutes ago Created yufei_4 ff49dfedea4f centos &quot;/bin/bash&quot; 2 hours ago Exited (137) 10 minutes ago yufei_03 d2cc70abb5a5 centos &quot;/bin/bash&quot; 2 hours ago Exited (127) 2 hours ago yufei_02 2d48fc5b7c17 centos &quot;/bin/bash&quot; 2 hours ago Exited (127) 2 hours ago yufei_01 [root@localhost ~]# 5、启动、停止、重启某个docker 容器[root@localhost ~]# docker start yufei_01 yufei_01 [root@localhost ~]# docker stop yufei_01 yufei_01 [root@localhost ~]# docker restart yufei_01 yufei_01 [root@localhost ~]# 6、查看指定容器的日志记录[root@back bin]# docker ps CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES baa114bbd3cd oddrationale/docker-shadowsocks &quot;/usr/local/bin/ss...&quot; 28 minutes ago Up 28 minutes 0.0.0.0:9527-&gt;9527/tcp eloquent_goldwasser [root@back bin]# docker logs -f baa114bbd3cd 7、删除某个容器，若正在运行，需要先停止[root@localhost ~]# docker rm yufei_01 Error response from daemon: You cannot remove a running container 2d48fc5b7c17b01e6247cbc012013306faf1e54f24651d5e16d6db4e15f92d33. Stop the container before attempting removal or use -f [root@localhost ~]# docker stop yufei_01 yufei_01 [root@localhost ~]# docker rm yufei_01 yufei_01 [root@localhost ~]# 8、删除所有容器[root@localhost ~]# docker rm $(docker ps -a -q) Error response from daemon: You cannot remove a running container 724e7701f0d4a830167e21f75b470235a0e408fd6cc2913403426e96f69cba11. Stop the container before attempting removal or use -f Error response from daemon: You cannot remove a running container f9097691663ee36f9d2ee56afbdcca0eeb8b63e5590ddf18c0c42954c93b9f06. Stop the container before attempting removal or use -f [root@localhost ~]# [root@localhost ~]# [root@localhost ~]# docker stop yufei_6 yufei_6 [root@localhost ~]# docker stop yufei_5 yufei_5 [root@localhost ~]# docker rm $(docker ps -a -q) 724e7701f0d4 f9097691663e [root@localhost ~]# 9、镜像列出镜像:docker image ls或docker images列出所有镜像：docker image ls -a列出所有镜像：docker images -a查看镜像、容器、数据卷所占用的空间:docker system df删除镜像:docker image rm]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>linux</tag>
+        <tag>docker</tag>
+        <tag>Shadowsocks</tag>
+        <tag>ss</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Mac常用软件收藏]]></title>
+    <url>%2F2019%2F01%2F25%2FMac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%94%B6%E8%97%8F%2F</url>
+    <content type="text"><![CDATA[软件收藏 xclient | 常用软件都有，个别因为版权问题下架，所有安装包解压需要密码 xclient.info 爱情守望者 | 差不多，安装包没有密码 史蒂芬周的博客 | 一个博客，居然还收费下载，有的也免费，随便看看还行，主要用来看软件更新日志 mac-torrent-download | 神站不解释，不过广告超多，而且都是强制广告，需翻墙 油猴脚本 | 油猴的脚本站 MSDN | 可以下载到纯净的系统安装包 旧版iTunes | 可以下载最后一个支持下载安装包的iTunes Homebrew | macOS 缺失的软件包的管理器 freedownloadmanager | 一个全平台的下载器（顶替迅雷） idea.lanyus | 破解idea专用 idea 2018.1破解激活方法,有效期至2099年 | 目前有效 sequelpro | mac上一个mysql图形化界面工具，超喜欢，可惜不更新了 IINA | Mac上一个开源播放器，超好用 PicGo | 全平台图床工具 Mos | 一个用于在 MacOS 上平滑你的鼠标滚动效果或单独设置滚动方向的小工具, 让你的滚轮爽如触控板 ieaseMusic | Mac上开源的网易云播放器，界面不错 Photon | 基于aria2的轻量级多线程下载器。 迅雷 U 享版 | 迅雷 U 享版 irreader | 订阅网页、RSS和Podcast，具备急速的阅读体验，高品质、免费、无广告、多平台的RSS阅读器。 Glacier | 展示macos图标 Easy-to-RSS | 功能：获取网页RSS，复制到剪贴板并打开该RSS网页 Background Music | mac上可以单独调节各种音量大小的软件 壁纸网站 https://interfacelift.com/wallpaper/downloads/date/any/ | 质量高，更新慢 https://unsplash.com/ | 质量中等，更新较快 https://alpha.wallhaven.cc/random?page=2 https://wallions.com/search https://www.lifeofpix.com/ https://visualhunt.com/ https://wallions.com/search/mountain http://streetwill.co/ https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat https://lai.yuweining.cn/archives/575/]]></content>
+      <categories>
+        <category>MacBook</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>MacBook</tag>
+        <tag>收藏</tag>
+        <tag>软件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[MacBook Pro休眠掉电问题]]></title>
+    <url>%2F2019%2F01%2F25%2FMacBook%20Pro%E4%BC%91%E7%9C%A0%E6%8E%89%E7%94%B5%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[重启 Macbook，在启动的时候按住 command + R，然后系统会尽入 recovery 模式。 选择语言，点下一步，然后在菜单栏选择打开 terminal。 输入 csrutil disable 禁掉 SIP，然后正常重启 macbook。 打开 terminal，输入 ioreg -l | grep board-id 查看你的 board-id， 在这个目录 /System/Library/Extensions/IOPlatformPluginFamily.kext/Contents/PlugIns/X86PlatformPlugin.kext/Contents/Resources 下面找到你的 board-id 对应的 .plist 文件 用管理员账户编辑上一步中的 plist 文件，比如 sudo vim Mac-2BD2C31983FE1634.plist 把 TCPKeepAliveDuringSleep 修改为 false, 然后保存 &lt;key&gt;TCPKeepAliveDuringSleep&lt;/key&gt; &lt;false/&gt; &lt;key&gt;NotificationWake&lt;/key&gt; &lt;false/&gt; &lt;key&gt;DNDWhileDisplaySleeps&lt;/key&gt; &lt;true/&gt; 重启 mac，按照第 1，2 步进入 recovery 模式，开启 SIP，csrutil enable。 正常重启 mac，就可以了。可以用这个命令 ioreg -l | grep IOPlatformFeatureDefaults 来查看修改后的状态。]]></content>
+      <categories>
+        <category>MacBook</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>技巧</tag>
+        <tag>MacBook</tag>
+        <tag>电量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Chrome 原生工具进行网页长截图]]></title>
+    <url>%2F2019%2F01%2F25%2FChrome%20%E5%8E%9F%E7%94%9F%E5%B7%A5%E5%85%B7%E8%BF%9B%E8%A1%8C%E7%BD%91%E9%A1%B5%E9%95%BF%E6%88%AA%E5%9B%BE%2F</url>
+    <content type="text"><![CDATA[首先按下 ⌘Command + ⌥Option + I（Windows 为 F12）快捷键，召唤出调试界面。 随后，按下 ⌘Command + ⇧Shift + P（Windows 为 Ctrl + Shift + P），输入命令 Capture full size screenshot（只输前几个字母就能找到），敲下回车，Chrome 就会自动截取整个网页内容并保存至本地。由于是渲染引擎直接输出，其比普通扩展速度更快，分辨率也更高。 除了普通长截图以外，你还可以利用这一功能截取手机版网页长图。只需要按下 ⌘Command + ⇧Shift + M （Windows 为 Ctrl + Shift + M）模拟移动设备，再按刚才的方法运行命令就可以了。在顶部的工具栏中，你可以选择要模拟的设备和分辨率等设置。 如果你想准确截取网页的某一部分，可以按下 ⌘Command + ⇧Shift + C（Windows 为 Ctrl + Shift + C）嗅探元素。选中想要的部分后，再运行 Capture node screenshot 命令，一张完美的选区截图就诞生了。]]></content>
+      <categories>
+        <category>技巧</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>Chrome</tag>
+        <tag>技巧</tag>
+        <tag>截图</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hexo 最常用的几个命令]]></title>
+    <url>%2F2019%2F01%2F25%2FHexo%20%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E5%87%A0%E4%B8%AA%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[Hexo 约有二十个命令，但普通用户经常使用的大概只有下列几个:hexo shexo s 启动本地服务器，用于预览主题。默认地址： http://localhost:4000/ hexo s 是 hexo server 的缩写，命令效果一致；预览的同时可以修改文章内容或主题代码，保存后刷新页面即可；对 Hexo 根目录 _config.yml 的修改，需要重启本地服务器后才能预览效果。 hexo newhexo new &quot;学习笔记 六&quot; 新建一篇标题为 学习笔记 六 的文章，因为标题里有空格，所以加上了引号。 文章标题可以在对应 md 文件里改，新建时标题可以写的简单些。 hexo dhexo d 自动生成网站静态文件，并部署到设定的仓库。 hexo d 是 hexo deploy 的缩写，命令效果一致。 hexo cleanhexo clean 清除缓存文件 db.json 和已生成的静态文件 public 。 网站显示异常时可以执行这条命令试试。 hexo ghexo g 生成网站静态文件到默认设置的 public 文件夹。 便于查看网站生成的静态文件或者手动部署网站；如果使用自动部署，不需要先执行该命令；hexo g 是 hexo generate 的缩写，命令效果一致。 hexo new pagehexo new page aboutme 新建一个标题为 aboutme 的页面，默认链接地址为 主页地址/aboutme/ 标题可以为中文，但一般习惯用英文；页面标题和文章一样可以随意修改；页面不会出现在首页文章列表和归档中，也不支持设置分类和标签。 md文章格式1234567---title: Hexo 最常用的几个命令date: 2019-01-25 16:25:50tags: [随笔,Hexo,学习,命令]categories: Hexo---]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>Hexo</tag>
+        <tag>学习</tag>
+        <tag>命令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Linux常用命令]]></title>
+    <url>%2F2019%2F01%2F24%2FLinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[linux命令很多，但是常用的也就那么多，记录一些liunx常用的命令tab tab不是命令，是键盘上的tab键，这个虽然不是命令但是很重要，可以帮你补全文件信息和路径信息，减少手打产生的错误，例如你要进入到/usr/local,你使用cd /u然后按tab就会自动帮你打出cd /usr,如果你不知道/usr目录下有哪些文件夹，你可以连续按两次tab，就会在保留当前cd /usr的命令下并显示出/usr下的文件 cd 进入文件夹，比如 cd /home , cd /usr/data cd .. 的意思是返回上一级 cd ./path 切换到当前目录下的path目录中，“.”表示当前目录 cd ../path 切换到上层目录中的path目录中，“..”表示上一层目录 pwd 查看当前目录路径 ls 查看当前目录下的所有文件 ll 也是查看当前目录下所有文件，不过这个显示每个文件的详情 cp 复制命令，例如：cp test.txt test1.txt 复制test.txt文件为test1.txt mkdir 新建文件夹命令，例：mkdir 111 vi,vim vi 是linux自带的文本编辑命令，vim是vi的升级版，vim命令需要安装才有，可以使用这两个命令编辑文本，例如：vi test.txt 就会进入文本编辑模式，但是这个时候你是没法编辑的，如果你要开始编辑你需要先输入字母 a 激活编辑模式。 下面有INSERT字样提示你可以编辑 当你编辑完成后可以按 Esc 退出编辑模式如果你要保存你需要直接输入 :wq 并回车,如果放弃保存 直接输入 :q 并回车 cat 预览模式查看文件，例：cat test.txt ,直接显示文本内信息，但是不能编辑 mv 移动命令，将文件已到另一个文件夹，例：mv test.txt /home/data/111/ rm 删除命令，慎用，linux没有回收站功能，删除之前要看仔细了再操作，例如 rm test.txt 删除文件夹和文件夹内的文件需要用 rm -rf ps -ef ps -ef是查看进程的命令，通常需要搭配 grep 一起用，例如查看当前服务器上java进程，ps -ef|grep java 就会显示所有的java进程，每个进程的执行目录也有，如果你想找一台服务器上的某个服务文件路径，就可以使用这个命令查看之后找到路径 netstat -tunlp 和ps -ef差不多的一个命令，也是查进程的，但是查出来的比较简洁，例如 netstat -tunlp | grep java kill -9 结束某个进程，结束一个进程你需要知道进程的pid，用ps -ef和netstat -tunlp都可以看到进程的pid，例如关闭一个进程：kill -9 1162 linux命令都不难，常用的几个记住就行，最主要是要多敲，熟能生巧而已，还有些其他命令比如解压缩打包或者启动服务的命令，具体要看你是什么格式的压缩包和什么样的服务，不同的服务启动命令不一样，具体情况具体看就好]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>学习</tag>
+        <tag>命令</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[vscode Intergrated Teiminal 集成终端]]></title>
+    <url>%2F2019%2F01%2F23%2Fvscode%E9%85%8D%E7%BD%AE%E7%B1%BB%E4%BC%BClinux%E5%91%BD%E4%BB%A4%E8%A1%8C%2F</url>
+    <content type="text"><![CDATA[windows没有ls,pwd等类似linux的命令，着实不方便，虽然有mkdir，但是用习惯了linux会觉得很奇怪，强大的vscode居然有这种插件可以解决，记一下安装方法： 环境：windows7 设置-搜索 terminal.integrated.shellArgs.osx 工作区设置或用户设置配置 { &quot;terminal.integrated.shell.windows&quot;: &quot;C:/Program Files/Git/bin/bash.exe&quot;, &quot;explorer.confirmDelete&quot;: false } 保存会提示重启，ctrl + shift + ~ 启动终端面板]]></content>
+      <categories>
+        <category>vscode</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>linux</tag>
+        <tag>配置</tag>
+        <tag>vscode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ss的一些配置和命令]]></title>
+    <url>%2F2019%2F01%2F23%2Fss%E7%9A%84%E4%B8%80%E4%BA%9B%E9%85%8D%E7%BD%AE%E5%92%8C%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[ss命令后台运行：ssserver -c /etc/shadowsocks.json -d start 后台停止：ssserver -c /etc/shadowsocks.json -d stop 前台运行：ssserver -c /etc/shadowsocks/config.json 修改配置： vi /etc/shadowsocks.json SSR: 管理界面：bash ssr.sh 锐速命令： 启动： service serverSpeeder start 关闭： service serverSpeeder stop 状态： service serverSpeeder status 开启防火墙端口： 端口号是你自己设置的端口$ firewall-cmd --permanent --zone=public --add-port=443/tcp $ firewall-cmd --reload]]></content>
+      <categories>
+        <category>ss</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>linux</tag>
+        <tag>ss</tag>
+        <tag>配置</tag>
+        <tag>shadowsocks</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo加上动态看板娘]]></title>
+    <url>%2F2019%2F01%2F23%2Fhexo%20%E6%B7%BB%E5%8A%A0live2d%E7%9C%8B%E6%9D%BF%E5%8A%A8%E7%94%BB%2F</url>
+    <content type="text"><![CDATA[hexo 添加live2d看板动画首先贴出官网代码官网地址配置：https://www.npmjs.com/package/hexo-helper-live2d 遇到问题： 替换主题，在项目跟目录创建文件夹live2d_models,在这里选择你喜欢的妹子 然后去这里找到对应的安装包文件名，先贴一下免得下次找： 安装插件：npm install --save hexo-helper-live2d live2d-widget-model-chitose live2d-widget-model-epsilon2_1 live2d-widget-model-gf live2d-widget-model-haru/01 (use npm install –save live2d-widget-model-haru) live2d-widget-model-haru/02 (use npm install –save live2d-widget-model-haru) live2d-widget-model-haruto live2d-widget-model-hibiki live2d-widget-model-hijiki live2d-widget-model-izumi live2d-widget-model-koharu live2d-widget-model-miku live2d-widget-model-ni-j live2d-widget-model-nico live2d-widget-model-nietzsche live2d-widget-model-nipsilon live2d-widget-model-nito live2d-widget-model-shizuku live2d-widget-model-tororo live2d-widget-model-tsumiki live2d-widget-model-unitychan live2d-widget-model-wanko live2d-widget-model-z16 安装主题：npm install live2d-widget-model-chitose 在主题_config.yml的参数配置贴一下： # Live2D ## https://github.com/EYHN/hexo-helper-live2d live2d: enable: true # enable: false scriptFrom: local # 默认 pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径) pluginJsPath: lib/ # 脚本文件相对与插件根目录路径 pluginModelPath: assets/ # 模型文件相对与插件根目录路径 # scriptFrom: jsdelivr # jsdelivr CDN # scriptFrom: unpkg # unpkg CDN # scriptFrom: https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js # 你的自定义 url tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中 debug: false # 调试, 是否在控制台输出日志 model: use: live2d-widget-model-haruto # npm-module package name # use: wanko # 博客根目录/live2d_models/ 下的目录名 # use: ./wives/wanko # 相对于博客根目录的路径 # use: https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json # 你的自定义 url display: superSample: 2 width: 100 height: 150 position: right hOffset: 0 vOffset: -0 mobile: show: true scale: 0.1 Epsilon2.1 Gantzert_Felixander haru miku ni-j nico nietzche nipsilon nito shizuku tsumiki wanko z16 hibiki koharu haruto Unitychan tororo hijiki]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>学习</tag>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[记录搭建博客遇到的一些问题]]></title>
+    <url>%2F2019%2F01%2F22%2F%E8%AE%B0%E5%BD%95%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[git和hexo两者的git处理方式不一样，通过hexo提交的话不会提交源码只会提交编译后的html，所以一旦源码丢失那就gg了 hexo环境的搭建，这个自己百度，很简单 我喜欢的next主题配置，参见：https://www.jianshu.com/p/9f0e90cc32c2 jekyll博客也是很不错的，可以直接上传markdown文件生成文章，相对hexo来说是要方便一点，但是犹豫hexo的驱动比较牛逼，我比较喜欢炫酷的效果所以还是选择了hexo 评论系统采用的是Valine，gitment有bug，经常js报错很难受，gitalk也是,Disqus需要翻墙，相对来说Valine最合适，不需要登录就可以评论 好了就写这么多，搭建的过程虽然网上有很多教程，但是还是会遇到一些npm node 之类的错误，自己还是要多查多思考，也没那么难]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>学习</tag>
+        <tag>博客</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+</search>
