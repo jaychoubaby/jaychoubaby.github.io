@@ -7,7 +7,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaychoubaby.github.io/"/>
-  <updated>2019-03-25T01:57:09.726Z</updated>
+  <updated>2019-03-25T02:17:22.648Z</updated>
   <id>https://jaychoubaby.github.io/</id>
   
   <author>
@@ -16,6 +16,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Github每次发布重新绑定域名问题</title>
+    <link href="https://jaychoubaby.github.io/2019/03/25/Github%E6%AF%8F%E6%AC%A1%E5%8F%91%E5%B8%83%E9%87%8D%E6%96%B0%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D%E9%97%AE%E9%A2%98/"/>
+    <id>https://jaychoubaby.github.io/2019/03/25/Github每次发布重新绑定域名问题/</id>
+    <published>2019-03-25T02:12:57.000Z</published>
+    <updated>2019-03-25T02:17:22.648Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="github搭建的hexo博客可以设置自定义域名，如果不配置的话每次都需要手动设置，每次发布就需要设置一次"><a href="#github搭建的hexo博客可以设置自定义域名，如果不配置的话每次都需要手动设置，每次发布就需要设置一次" class="headerlink" title="github搭建的hexo博客可以设置自定义域名，如果不配置的话每次都需要手动设置，每次发布就需要设置一次"></a>github搭建的hexo博客可以设置自定义域名，如果不配置的话每次都需要手动设置，每次发布就需要设置一次</h3><p>解决办法：只需要在主题根目录、项目根目录、一级source根目录放置’CNAME’文件即可</p><h3 id="另外新装hexo环境下hexo-d可能会遇到报错的问题"><a href="#另外新装hexo环境下hexo-d可能会遇到报错的问题" class="headerlink" title="另外新装hexo环境下hexo d可能会遇到报错的问题"></a>另外新装hexo环境下hexo d可能会遇到报错的问题</h3><p>解决办法： 设置<code>_config.yml</code> - <code>auto_detect</code> 为 <code>false</code> 即可</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;github搭建的hexo博客可以设置自定义域名，如果不配置的话每次都需要手动设置，每次发布就需要设置一次&quot;&gt;&lt;a href=&quot;#github搭建的hexo博客可以设置自定义域名，如果不配置的话每次都需要手动设置，每次发布就需要设置一次&quot; class=&quot;heade
+      
+    
+    </summary>
+    
+      <category term="blog" scheme="https://jaychoubaby.github.io/categories/blog/"/>
+    
+    
+      <category term="随笔" scheme="https://jaychoubaby.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+      <category term="博客" scheme="https://jaychoubaby.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
+    
+      <category term="hexo" scheme="https://jaychoubaby.github.io/tags/hexo/"/>
+    
+      <category term="github" scheme="https://jaychoubaby.github.io/tags/github/"/>
+    
+  </entry>
   
   <entry>
     <title>CentOS7.4搭建shadowsocks</title>
@@ -104,11 +135,11 @@
     
       <category term="linux" scheme="https://jaychoubaby.github.io/tags/linux/"/>
     
+      <category term="ss" scheme="https://jaychoubaby.github.io/tags/ss/"/>
+    
       <category term="docker" scheme="https://jaychoubaby.github.io/tags/docker/"/>
     
       <category term="Shadowsocks" scheme="https://jaychoubaby.github.io/tags/Shadowsocks/"/>
-    
-      <category term="ss" scheme="https://jaychoubaby.github.io/tags/ss/"/>
     
   </entry>
   
@@ -296,9 +327,9 @@
     
       <category term="linux" scheme="https://jaychoubaby.github.io/tags/linux/"/>
     
-      <category term="配置" scheme="https://jaychoubaby.github.io/tags/%E9%85%8D%E7%BD%AE/"/>
-    
       <category term="vscode" scheme="https://jaychoubaby.github.io/tags/vscode/"/>
+    
+      <category term="配置" scheme="https://jaychoubaby.github.io/tags/%E9%85%8D%E7%BD%AE/"/>
     
   </entry>
   
@@ -327,9 +358,9 @@
     
       <category term="linux" scheme="https://jaychoubaby.github.io/tags/linux/"/>
     
-      <category term="ss" scheme="https://jaychoubaby.github.io/tags/ss/"/>
-    
       <category term="配置" scheme="https://jaychoubaby.github.io/tags/%E9%85%8D%E7%BD%AE/"/>
+    
+      <category term="ss" scheme="https://jaychoubaby.github.io/tags/ss/"/>
     
       <category term="shadowsocks" scheme="https://jaychoubaby.github.io/tags/shadowsocks/"/>
     
