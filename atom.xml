@@ -7,7 +7,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaychoubaby.github.io/"/>
-  <updated>2019-03-25T06:02:24.191Z</updated>
+  <updated>2019-03-25T02:28:35.521Z</updated>
   <id>https://jaychoubaby.github.io/</id>
   
   <author>
@@ -16,28 +16,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>这测试新的测试</title>
-    <link href="https://jaychoubaby.github.io/2019/03/25/%E8%BF%99%E6%B5%8B%E8%AF%95%E6%96%B0%E7%9A%84%E6%B5%8B%E8%AF%95/"/>
-    <id>https://jaychoubaby.github.io/2019/03/25/这测试新的测试/</id>
-    <published>2019-03-25T05:55:43.000Z</published>
-    <updated>2019-03-25T06:02:24.191Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/2019/03/25/这测试新的测试/back\bolg\jaychoubaby\source\_posts\这测试新的测试\1553493485383.png" alt="1553493485383"></p><p><img src="/2019/03/25/这测试新的测试/back\bolg\jaychoubaby\source\_posts\这测试新的测试\1553493533116.png" alt="1553493533116"></p><p><img src="/2019/03/25/这测试新的测试/1553493606260.png" alt="1553493606260"></p><p><img src="/2019/03/25/这测试新的测试/1553493735733.png" alt="1553493735733"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;img src=&quot;/2019/03/25/这测试新的测试/back\bolg\jaychoubaby\source\_posts\这测试新的测试\1553493485383.png&quot; alt=&quot;1553493485383&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/2019/
-      
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>Github每次发布重新绑定域名问题</title>
@@ -133,6 +111,38 @@
   </entry>
   
   <entry>
+    <title>Mac常用软件收藏</title>
+    <link href="https://jaychoubaby.github.io/2019/01/25/Mac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%94%B6%E8%97%8F/"/>
+    <id>https://jaychoubaby.github.io/2019/01/25/Mac常用软件收藏/</id>
+    <published>2019-01-25T09:12:50.000Z</published>
+    <updated>2019-03-25T01:57:09.728Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="软件收藏"><a href="#软件收藏" class="headerlink" title="软件收藏"></a>软件收藏</h3><ol><li><a href="https://xclient.info/" target="_blank" rel="noopener">xclient</a> | 常用软件都有，个别因为版权问题下架，所有安装包解压需要密码 <code>xclient.info</code></li><li><a href="https://www.waitsun.com/" target="_blank" rel="noopener">爱情守望者</a> | 差不多，安装包没有密码</li><li><a href="http://www.sdifen.com/" target="_blank" rel="noopener">史蒂芬周的博客</a> | 一个博客，居然还收费下载，有的也免费，随便看看还行，主要用来看软件更新日志</li><li><a href="http://mac-torrent-download.net/" target="_blank" rel="noopener">mac-torrent-download</a> | 神站不解释，不过广告超多，而且都是强制广告，需翻墙</li><li><a href="https://greasyfork.org/zh-CN/scripts" target="_blank" rel="noopener">油猴脚本</a> | 油猴的脚本站</li><li><a href="http://msdn.itellyou.cn/" target="_blank" rel="noopener">MSDN</a> | 可以下载到纯净的系统安装包</li><li><a href="https://support.apple.com/zh-cn/HT208079" target="_blank" rel="noopener">旧版iTunes</a> | 可以下载最后一个支持下载安装包的iTunes</li><li><a href="https://brew.sh/index_zh-cn.html" target="_blank" rel="noopener">Homebrew</a> | macOS 缺失的软件包的管理器</li><li><a href="https://www.freedownloadmanager.org/" target="_blank" rel="noopener">freedownloadmanager</a> | 一个全平台的下载器（顶替迅雷）</li><li><a href="http://idea.lanyus.com/" target="_blank" rel="noopener">idea.lanyus</a> | 破解idea专用</li><li><a href="https://www.cnblogs.com/zqr99/p/8708069.html" target="_blank" rel="noopener">idea 2018.1破解激活方法,有效期至2099年</a> | 目前有效</li><li><a href="http://www.sequelpro.com/" target="_blank" rel="noopener">sequelpro</a> | mac上一个mysql图形化界面工具，超喜欢，可惜不更新了</li><li><a href="https://iina.io/" target="_blank" rel="noopener">IINA</a> | Mac上一个开源播放器，超好用</li><li><a href="https://github.com/Molunerfinn/PicGo" target="_blank" rel="noopener">PicGo</a> | 全平台图床工具</li><li><a href="https://github.com/Caldis/Mos" target="_blank" rel="noopener">Mos</a> | 一个用于在 MacOS 上平滑你的鼠标滚动效果或单独设置滚动方向的小工具, 让你的滚轮爽如触控板</li><li><a href="https://github.com/trazyn/ieaseMusic" target="_blank" rel="noopener">ieaseMusic</a> | Mac上开源的网易云播放器，界面不错</li><li><a href="https://github.com/alanzhangzm/Photon" target="_blank" rel="noopener">Photon</a> | 基于aria2的轻量级多线程下载器。</li><li><a href="https://lai.yuweining.cn/archives/1757/" target="_blank" rel="noopener">迅雷 U 享版</a> | 迅雷 U 享版</li><li><a href="http://irreader.netqon.com/" target="_blank" rel="noopener">irreader</a>  | 订阅网页、RSS和Podcast，具备急速的阅读体验，高品质、免费、无广告、多平台的RSS阅读器。 </li><li><a href="https://glaciericons.com/" target="_blank" rel="noopener">Glacier</a> | 展示macos图标</li><li><a href="https://github.com/idealclover/Easy-to-RSS" target="_blank" rel="noopener">Easy-to-RSS</a> | 功能：获取网页RSS，复制到剪贴板并打开该RSS网页</li><li><a href="https://github.com/kyleneideck/BackgroundMusic" target="_blank" rel="noopener">Background Music</a> | mac上可以单独调节各种音量大小的软件</li></ol><h3 id="壁纸网站"><a href="#壁纸网站" class="headerlink" title="壁纸网站"></a>壁纸网站</h3><ol><li><a href="https://interfacelift.com/wallpaper/downloads/date/any/" target="_blank" rel="noopener">https://interfacelift.com/wallpaper/downloads/date/any/</a> | 质量高，更新慢</li><li><a href="https://unsplash.com/" target="_blank" rel="noopener">https://unsplash.com/</a> | 质量中等，更新较快</li><li><a href="https://alpha.wallhaven.cc/random?page=2" target="_blank" rel="noopener">https://alpha.wallhaven.cc/random?page=2</a></li><li><a href="https://wallions.com/search" target="_blank" rel="noopener">https://wallions.com/search</a></li><li><a href="https://www.lifeofpix.com/" target="_blank" rel="noopener">https://www.lifeofpix.com/</a></li><li><a href="https://visualhunt.com/" target="_blank" rel="noopener">https://visualhunt.com/</a></li><li><a href="https://wallions.com/search/mountain" target="_blank" rel="noopener">https://wallions.com/search/mountain</a></li><li><a href="http://streetwill.co/" target="_blank" rel="noopener">http://streetwill.co/</a></li><li><a href="https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat" target="_blank" rel="noopener">https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat</a></li><li><a href="https://lai.yuweining.cn/archives/575/" target="_blank" rel="noopener">https://lai.yuweining.cn/archives/575/</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;软件收藏&quot;&gt;&lt;a href=&quot;#软件收藏&quot; class=&quot;headerlink&quot; title=&quot;软件收藏&quot;&gt;&lt;/a&gt;软件收藏&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://xclient.info/&quot; target=&quot;_blank&quot; rel=&quot;noo
+      
+    
+    </summary>
+    
+      <category term="MacBook" scheme="https://jaychoubaby.github.io/categories/MacBook/"/>
+    
+    
+      <category term="随笔" scheme="https://jaychoubaby.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+      <category term="MacBook" scheme="https://jaychoubaby.github.io/tags/MacBook/"/>
+    
+      <category term="收藏" scheme="https://jaychoubaby.github.io/tags/%E6%94%B6%E8%97%8F/"/>
+    
+      <category term="软件" scheme="https://jaychoubaby.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
     <title>linux docker Shadowsocks 常规操作</title>
     <link href="https://jaychoubaby.github.io/2019/01/25/linux%20docker%20Shadowsocks%20%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/"/>
     <id>https://jaychoubaby.github.io/2019/01/25/linux docker Shadowsocks 常规操作/</id>
@@ -162,38 +172,6 @@
       <category term="Shadowsocks" scheme="https://jaychoubaby.github.io/tags/Shadowsocks/"/>
     
       <category term="ss" scheme="https://jaychoubaby.github.io/tags/ss/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mac常用软件收藏</title>
-    <link href="https://jaychoubaby.github.io/2019/01/25/Mac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%94%B6%E8%97%8F/"/>
-    <id>https://jaychoubaby.github.io/2019/01/25/Mac常用软件收藏/</id>
-    <published>2019-01-25T09:12:50.000Z</published>
-    <updated>2019-03-25T01:57:09.728Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="软件收藏"><a href="#软件收藏" class="headerlink" title="软件收藏"></a>软件收藏</h3><ol><li><a href="https://xclient.info/" target="_blank" rel="noopener">xclient</a> | 常用软件都有，个别因为版权问题下架，所有安装包解压需要密码 <code>xclient.info</code></li><li><a href="https://www.waitsun.com/" target="_blank" rel="noopener">爱情守望者</a> | 差不多，安装包没有密码</li><li><a href="http://www.sdifen.com/" target="_blank" rel="noopener">史蒂芬周的博客</a> | 一个博客，居然还收费下载，有的也免费，随便看看还行，主要用来看软件更新日志</li><li><a href="http://mac-torrent-download.net/" target="_blank" rel="noopener">mac-torrent-download</a> | 神站不解释，不过广告超多，而且都是强制广告，需翻墙</li><li><a href="https://greasyfork.org/zh-CN/scripts" target="_blank" rel="noopener">油猴脚本</a> | 油猴的脚本站</li><li><a href="http://msdn.itellyou.cn/" target="_blank" rel="noopener">MSDN</a> | 可以下载到纯净的系统安装包</li><li><a href="https://support.apple.com/zh-cn/HT208079" target="_blank" rel="noopener">旧版iTunes</a> | 可以下载最后一个支持下载安装包的iTunes</li><li><a href="https://brew.sh/index_zh-cn.html" target="_blank" rel="noopener">Homebrew</a> | macOS 缺失的软件包的管理器</li><li><a href="https://www.freedownloadmanager.org/" target="_blank" rel="noopener">freedownloadmanager</a> | 一个全平台的下载器（顶替迅雷）</li><li><a href="http://idea.lanyus.com/" target="_blank" rel="noopener">idea.lanyus</a> | 破解idea专用</li><li><a href="https://www.cnblogs.com/zqr99/p/8708069.html" target="_blank" rel="noopener">idea 2018.1破解激活方法,有效期至2099年</a> | 目前有效</li><li><a href="http://www.sequelpro.com/" target="_blank" rel="noopener">sequelpro</a> | mac上一个mysql图形化界面工具，超喜欢，可惜不更新了</li><li><a href="https://iina.io/" target="_blank" rel="noopener">IINA</a> | Mac上一个开源播放器，超好用</li><li><a href="https://github.com/Molunerfinn/PicGo" target="_blank" rel="noopener">PicGo</a> | 全平台图床工具</li><li><a href="https://github.com/Caldis/Mos" target="_blank" rel="noopener">Mos</a> | 一个用于在 MacOS 上平滑你的鼠标滚动效果或单独设置滚动方向的小工具, 让你的滚轮爽如触控板</li><li><a href="https://github.com/trazyn/ieaseMusic" target="_blank" rel="noopener">ieaseMusic</a> | Mac上开源的网易云播放器，界面不错</li><li><a href="https://github.com/alanzhangzm/Photon" target="_blank" rel="noopener">Photon</a> | 基于aria2的轻量级多线程下载器。</li><li><a href="https://lai.yuweining.cn/archives/1757/" target="_blank" rel="noopener">迅雷 U 享版</a> | 迅雷 U 享版</li><li><a href="http://irreader.netqon.com/" target="_blank" rel="noopener">irreader</a>  | 订阅网页、RSS和Podcast，具备急速的阅读体验，高品质、免费、无广告、多平台的RSS阅读器。 </li><li><a href="https://glaciericons.com/" target="_blank" rel="noopener">Glacier</a> | 展示macos图标</li><li><a href="https://github.com/idealclover/Easy-to-RSS" target="_blank" rel="noopener">Easy-to-RSS</a> | 功能：获取网页RSS，复制到剪贴板并打开该RSS网页</li><li><a href="https://github.com/kyleneideck/BackgroundMusic" target="_blank" rel="noopener">Background Music</a> | mac上可以单独调节各种音量大小的软件</li></ol><h3 id="壁纸网站"><a href="#壁纸网站" class="headerlink" title="壁纸网站"></a>壁纸网站</h3><ol><li><a href="https://interfacelift.com/wallpaper/downloads/date/any/" target="_blank" rel="noopener">https://interfacelift.com/wallpaper/downloads/date/any/</a> | 质量高，更新慢</li><li><a href="https://unsplash.com/" target="_blank" rel="noopener">https://unsplash.com/</a> | 质量中等，更新较快</li><li><a href="https://alpha.wallhaven.cc/random?page=2" target="_blank" rel="noopener">https://alpha.wallhaven.cc/random?page=2</a></li><li><a href="https://wallions.com/search" target="_blank" rel="noopener">https://wallions.com/search</a></li><li><a href="https://www.lifeofpix.com/" target="_blank" rel="noopener">https://www.lifeofpix.com/</a></li><li><a href="https://visualhunt.com/" target="_blank" rel="noopener">https://visualhunt.com/</a></li><li><a href="https://wallions.com/search/mountain" target="_blank" rel="noopener">https://wallions.com/search/mountain</a></li><li><a href="http://streetwill.co/" target="_blank" rel="noopener">http://streetwill.co/</a></li><li><a href="https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat" target="_blank" rel="noopener">https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat</a></li><li><a href="https://lai.yuweining.cn/archives/575/" target="_blank" rel="noopener">https://lai.yuweining.cn/archives/575/</a></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;软件收藏&quot;&gt;&lt;a href=&quot;#软件收藏&quot; class=&quot;headerlink&quot; title=&quot;软件收藏&quot;&gt;&lt;/a&gt;软件收藏&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;a href=&quot;https://xclient.info/&quot; target=&quot;_blank&quot; rel=&quot;noo
-      
-    
-    </summary>
-    
-      <category term="MacBook" scheme="https://jaychoubaby.github.io/categories/MacBook/"/>
-    
-    
-      <category term="随笔" scheme="https://jaychoubaby.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-      <category term="MacBook" scheme="https://jaychoubaby.github.io/tags/MacBook/"/>
-    
-      <category term="收藏" scheme="https://jaychoubaby.github.io/tags/%E6%94%B6%E8%97%8F/"/>
-    
-      <category term="软件" scheme="https://jaychoubaby.github.io/tags/%E8%BD%AF%E4%BB%B6/"/>
     
   </entry>
   
@@ -411,11 +389,11 @@
     
       <category term="随笔" scheme="https://jaychoubaby.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
     
+      <category term="学习" scheme="https://jaychoubaby.github.io/tags/%E5%AD%A6%E4%B9%A0/"/>
+    
       <category term="博客" scheme="https://jaychoubaby.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
     
       <category term="hexo" scheme="https://jaychoubaby.github.io/tags/hexo/"/>
-    
-      <category term="学习" scheme="https://jaychoubaby.github.io/tags/%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
@@ -445,11 +423,11 @@
     
       <category term="随笔" scheme="https://jaychoubaby.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
     
+      <category term="学习" scheme="https://jaychoubaby.github.io/tags/%E5%AD%A6%E4%B9%A0/"/>
+    
       <category term="博客" scheme="https://jaychoubaby.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
     
       <category term="hexo" scheme="https://jaychoubaby.github.io/tags/hexo/"/>
-    
-      <category term="学习" scheme="https://jaychoubaby.github.io/tags/%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
