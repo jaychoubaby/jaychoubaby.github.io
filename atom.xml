@@ -7,7 +7,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaychoubaby.github.io/"/>
-  <updated>2019-03-25T02:28:35.521Z</updated>
+  <updated>2019-03-25T06:02:24.191Z</updated>
   <id>https://jaychoubaby.github.io/</id>
   
   <author>
@@ -16,6 +16,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>这测试新的测试</title>
+    <link href="https://jaychoubaby.github.io/2019/03/25/%E8%BF%99%E6%B5%8B%E8%AF%95%E6%96%B0%E7%9A%84%E6%B5%8B%E8%AF%95/"/>
+    <id>https://jaychoubaby.github.io/2019/03/25/这测试新的测试/</id>
+    <published>2019-03-25T05:55:43.000Z</published>
+    <updated>2019-03-25T06:02:24.191Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/2019/03/25/这测试新的测试/back\bolg\jaychoubaby\source\_posts\这测试新的测试\1553493485383.png" alt="1553493485383"></p><p><img src="/2019/03/25/这测试新的测试/back\bolg\jaychoubaby\source\_posts\这测试新的测试\1553493533116.png" alt="1553493533116"></p><p><img src="/2019/03/25/这测试新的测试/1553493606260.png" alt="1553493606260"></p><p><img src="/2019/03/25/这测试新的测试/1553493735733.png" alt="1553493735733"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;/2019/03/25/这测试新的测试/back\bolg\jaychoubaby\source\_posts\这测试新的测试\1553493485383.png&quot; alt=&quot;1553493485383&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2019/
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Github每次发布重新绑定域名问题</title>
@@ -327,9 +349,9 @@
     
       <category term="linux" scheme="https://jaychoubaby.github.io/tags/linux/"/>
     
-      <category term="vscode" scheme="https://jaychoubaby.github.io/tags/vscode/"/>
-    
       <category term="配置" scheme="https://jaychoubaby.github.io/tags/%E9%85%8D%E7%BD%AE/"/>
+    
+      <category term="vscode" scheme="https://jaychoubaby.github.io/tags/vscode/"/>
     
   </entry>
   
