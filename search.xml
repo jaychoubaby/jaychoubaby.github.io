@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Github每次发布重新绑定域名问题]]></title>
     <url>%2F2019%2F03%2F25%2FGithub%E6%AF%8F%E6%AC%A1%E5%8F%91%E5%B8%83%E9%87%8D%E6%96%B0%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[github搭建的hexo博客可以设置自定义域名，如果不配置的话每次都需要手动设置，每次发布就需要设置一次解决办法：只需要在主题根目录、项目根目录、一级source根目录放置’CNAME’文件即可 另外新装hexo环境下hexo d可能会遇到报错的问题解决办法： 设置_config.yml - auto_detect 为 false 即可]]></content>
+    <content type="text"><![CDATA[github搭建的hexo博客可以设置自定义域名，如果不配置的话每次都需要手动设置，每次发布就需要设置一次解决办法：只需要在主题根目录、项目根目录、一级source根目录放置’CNAME’文件即可 另外新装hexo环境下hexo d可能会遇到报错的问题解决办法： 设置_config.yml - auto_detect 为 false 即可.]]></content>
       <categories>
         <category>blog</category>
       </categories>
@@ -23,8 +23,8 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>linux</tag>
         <tag>博客</tag>
+        <tag>linux</tag>
         <tag>ss</tag>
       </tags>
   </entry>
@@ -52,9 +52,9 @@
       <tags>
         <tag>随笔</tag>
         <tag>linux</tag>
-        <tag>ss</tag>
         <tag>docker</tag>
         <tag>Shadowsocks</tag>
+        <tag>ss</tag>
       </tags>
   </entry>
   <entry>
@@ -151,8 +151,8 @@
       <tags>
         <tag>随笔</tag>
         <tag>linux</tag>
-        <tag>配置</tag>
         <tag>ss</tag>
+        <tag>配置</tag>
         <tag>shadowsocks</tag>
       </tags>
   </entry>
@@ -165,9 +165,9 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>学习</tag>
         <tag>博客</tag>
         <tag>hexo</tag>
+        <tag>学习</tag>
       </tags>
   </entry>
   <entry>
@@ -179,9 +179,9 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>学习</tag>
         <tag>博客</tag>
         <tag>hexo</tag>
+        <tag>学习</tag>
       </tags>
   </entry>
 </search>
