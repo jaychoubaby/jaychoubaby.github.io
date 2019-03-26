@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Nacos注册中心初体验]]></title>
+    <url>%2F2019%2F03%2F26%2FNacos%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E5%88%9D%E4%BD%93%E9%AA%8C%2F</url>
+    <content type="text"><![CDATA[Nacos注册中心初体验接触SpringCloud以来一直是用 eurrka做注册中心，闭源之后Nacos必然是大趋势，最近空闲刚好尝试一下。 Nacos既可以做注册中心也可以替代spring cloud config统一管理配置，今天只是尝试一下注册中心用法。 搭建与启动服务端搭建服务有两种方式： 1.源码编译：https://github.com/alibaba/nacos/releases 2.直接下载压缩包解压后启动 启动成功后，访问 http://127.0.0.1:8848/nacos 即可看到登录页面，默认账号密码都是nacos 搭建客户端并注册 创建spring boot 项目 配置pom.xml 12345&lt;!-- nacos 的服务注册与发现 --&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt; &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;&lt;/dependency&gt; 12345678910111213141516&lt;dependencyManagement&gt; &lt;dependencies&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt; &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt; &lt;version&gt;Greenwich.RELEASE&lt;/version&gt; &lt;type&gt;pom&lt;/type&gt; &lt;scope&gt;import&lt;/scope&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt; &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt; &lt;version&gt;0.2.1.RELEASE&lt;/version&gt; &lt;/dependency&gt; &lt;/dependencies&gt;&lt;/dependencyManagement&gt; 配置启动类 123456789@SpringBootApplication@EnableDiscoveryClient //加注解public class NacosApplication &#123; public static void main(String[] args) &#123; SpringApplication.run(NacosApplication.class, args); &#125;&#125; 配置 application.yml 12345678910111213141516171819server: port: 8001spring: application: name: test-provider cloud: nacos: discovery: server-addr: 127.0.0.1:8848management: endpoints: web: exposure: include: '*' endpoint: health: # 是否展示健康检查详情 show-details: always 至此，项目启动后在服务端页面便能看到服务已经注册上来了]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>java</tag>
+        <tag>Nacos</tag>
+        <tag>注册中心</tag>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Github每次发布重新绑定域名问题]]></title>
     <url>%2F2019%2F03%2F25%2FGithub%E6%AF%8F%E6%AC%A1%E5%8F%91%E5%B8%83%E9%87%8D%E6%96%B0%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[github搭建的hexo博客可以设置自定义域名，如果不配置的话每次都需要手动设置，每次发布就需要设置一次解决办法：只需要在主题根目录、项目根目录、一级source根目录放置’CNAME’文件即可 另外新装hexo环境下hexo d可能会遇到报错的问题解决办法： 设置_config.yml - auto_detect 为 false 即可.]]></content>
@@ -37,23 +52,9 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>linux</tag>
         <tag>学习</tag>
         <tag>命令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Mac常用软件收藏]]></title>
-    <url>%2F2019%2F01%2F25%2FMac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%94%B6%E8%97%8F%2F</url>
-    <content type="text"><![CDATA[软件收藏 xclient | 常用软件都有，个别因为版权问题下架，所有安装包解压需要密码 xclient.info 爱情守望者 | 差不多，安装包没有密码 史蒂芬周的博客 | 一个博客，居然还收费下载，有的也免费，随便看看还行，主要用来看软件更新日志 mac-torrent-download | 神站不解释，不过广告超多，而且都是强制广告，需翻墙 油猴脚本 | 油猴的脚本站 MSDN | 可以下载到纯净的系统安装包 旧版iTunes | 可以下载最后一个支持下载安装包的iTunes Homebrew | macOS 缺失的软件包的管理器 freedownloadmanager | 一个全平台的下载器（顶替迅雷） idea.lanyus | 破解idea专用 idea 2018.1破解激活方法,有效期至2099年 | 目前有效 sequelpro | mac上一个mysql图形化界面工具，超喜欢，可惜不更新了 IINA | Mac上一个开源播放器，超好用 PicGo | 全平台图床工具 Mos | 一个用于在 MacOS 上平滑你的鼠标滚动效果或单独设置滚动方向的小工具, 让你的滚轮爽如触控板 ieaseMusic | Mac上开源的网易云播放器，界面不错 Photon | 基于aria2的轻量级多线程下载器。 迅雷 U 享版 | 迅雷 U 享版 irreader | 订阅网页、RSS和Podcast，具备急速的阅读体验，高品质、免费、无广告、多平台的RSS阅读器。 Glacier | 展示macos图标 Easy-to-RSS | 功能：获取网页RSS，复制到剪贴板并打开该RSS网页 Background Music | mac上可以单独调节各种音量大小的软件 壁纸网站 https://interfacelift.com/wallpaper/downloads/date/any/ | 质量高，更新慢 https://unsplash.com/ | 质量中等，更新较快 https://alpha.wallhaven.cc/random?page=2 https://wallions.com/search https://www.lifeofpix.com/ https://visualhunt.com/ https://wallions.com/search/mountain http://streetwill.co/ https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat https://lai.yuweining.cn/archives/575/]]></content>
-      <categories>
-        <category>MacBook</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>MacBook</tag>
-        <tag>收藏</tag>
-        <tag>软件</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -72,6 +73,20 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Mac常用软件收藏]]></title>
+    <url>%2F2019%2F01%2F25%2FMac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%94%B6%E8%97%8F%2F</url>
+    <content type="text"><![CDATA[软件收藏 xclient | 常用软件都有，个别因为版权问题下架，所有安装包解压需要密码 xclient.info 爱情守望者 | 差不多，安装包没有密码 史蒂芬周的博客 | 一个博客，居然还收费下载，有的也免费，随便看看还行，主要用来看软件更新日志 mac-torrent-download | 神站不解释，不过广告超多，而且都是强制广告，需翻墙 油猴脚本 | 油猴的脚本站 MSDN | 可以下载到纯净的系统安装包 旧版iTunes | 可以下载最后一个支持下载安装包的iTunes Homebrew | macOS 缺失的软件包的管理器 freedownloadmanager | 一个全平台的下载器（顶替迅雷） idea.lanyus | 破解idea专用 idea 2018.1破解激活方法,有效期至2099年 | 目前有效 sequelpro | mac上一个mysql图形化界面工具，超喜欢，可惜不更新了 IINA | Mac上一个开源播放器，超好用 PicGo | 全平台图床工具 Mos | 一个用于在 MacOS 上平滑你的鼠标滚动效果或单独设置滚动方向的小工具, 让你的滚轮爽如触控板 ieaseMusic | Mac上开源的网易云播放器，界面不错 Photon | 基于aria2的轻量级多线程下载器。 迅雷 U 享版 | 迅雷 U 享版 irreader | 订阅网页、RSS和Podcast，具备急速的阅读体验，高品质、免费、无广告、多平台的RSS阅读器。 Glacier | 展示macos图标 Easy-to-RSS | 功能：获取网页RSS，复制到剪贴板并打开该RSS网页 Background Music | mac上可以单独调节各种音量大小的软件 壁纸网站 https://interfacelift.com/wallpaper/downloads/date/any/ | 质量高，更新慢 https://unsplash.com/ | 质量中等，更新较快 https://alpha.wallhaven.cc/random?page=2 https://wallions.com/search https://www.lifeofpix.com/ https://visualhunt.com/ https://wallions.com/search/mountain http://streetwill.co/ https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat https://lai.yuweining.cn/archives/575/]]></content>
+      <categories>
+        <category>MacBook</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>MacBook</tag>
+        <tag>收藏</tag>
+        <tag>软件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[MacBook Pro休眠掉电问题]]></title>
     <url>%2F2019%2F01%2F25%2FMacBook%20Pro%E4%BC%91%E7%9C%A0%E6%8E%89%E7%94%B5%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[重启 Macbook，在启动的时候按住 command + R，然后系统会尽入 recovery 模式。 选择语言，点下一步，然后在菜单栏选择打开 terminal。 输入 csrutil disable 禁掉 SIP，然后正常重启 macbook。 打开 terminal，输入 ioreg -l | grep board-id 查看你的 board-id， 在这个目录 /System/Library/Extensions/IOPlatformPluginFamily.kext/Contents/PlugIns/X86PlatformPlugin.kext/Contents/Resources 下面找到你的 board-id 对应的 .plist 文件 用管理员账户编辑上一步中的 plist 文件，比如 sudo vim Mac-2BD2C31983FE1634.plist 把 TCPKeepAliveDuringSleep 修改为 false, 然后保存 &lt;key&gt;TCPKeepAliveDuringSleep&lt;/key&gt; &lt;false/&gt; &lt;key&gt;NotificationWake&lt;/key&gt; &lt;false/&gt; &lt;key&gt;DNDWhileDisplaySleeps&lt;/key&gt; &lt;true/&gt; 重启 mac，按照第 1，2 步进入 recovery 模式，开启 SIP，csrutil enable。 正常重启 mac，就可以了。可以用这个命令 ioreg -l | grep IOPlatformFeatureDefaults 来查看修改后的状态。]]></content>
@@ -80,8 +95,8 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>技巧</tag>
         <tag>MacBook</tag>
+        <tag>技巧</tag>
         <tag>电量</tag>
       </tags>
   </entry>
@@ -94,8 +109,8 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>Chrome</tag>
         <tag>技巧</tag>
+        <tag>Chrome</tag>
         <tag>截图</tag>
       </tags>
   </entry>
@@ -108,9 +123,9 @@
       </categories>
       <tags>
         <tag>随笔</tag>
+        <tag>Hexo</tag>
         <tag>学习</tag>
         <tag>命令</tag>
-        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -122,9 +137,9 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>linux</tag>
         <tag>学习</tag>
         <tag>命令</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
