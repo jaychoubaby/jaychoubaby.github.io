@@ -20,7 +20,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="google-site-verification" content="puV0NBCmhgNyiga24bRAjALH5iD8JiRiCRsCSNmUgHQ">
 
 
 
@@ -30,7 +29,7 @@
     
     
   <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
-  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-flash.min.css?v=1.0.2">
 
 
 
@@ -54,7 +53,9 @@
 
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
 
 <link rel="stylesheet" href="/css/main.css?v=6.7.0">
 
@@ -105,24 +106,21 @@
 
 
   <meta name="description" content="首先按下 ⌘Command + ⌥Option + I（Windows 为 F12）快捷键，召唤出调试界面。    随后，按下 ⌘Command + ⇧Shift + P（Windows 为 Ctrl + Shift + P），输入命令 Capture full size screenshot（只输前几个字母就能找到），敲下回车，Chrome 就会自动截取整个网页内容并保存至本地。由于是渲染引擎">
-<meta name="keywords" content="随笔,技巧,Chrome,截图">
+<meta name="keywords" content="随笔,Chrome,技巧,截图">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Chrome 原生工具进行网页长截图">
 <meta property="og:url" content="https://jaychoubaby.github.io/2019/01/25/Chrome 原生工具进行网页长截图/index.html">
 <meta property="og:site_name" content="ฅ՞•ﻌ•՞ฅ">
 <meta property="og:description" content="首先按下 ⌘Command + ⌥Option + I（Windows 为 F12）快捷键，召唤出调试界面。    随后，按下 ⌘Command + ⇧Shift + P（Windows 为 Ctrl + Shift + P），输入命令 Capture full size screenshot（只输前几个字母就能找到），敲下回车，Chrome 就会自动截取整个网页内容并保存至本地。由于是渲染引擎">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.imgur.com/g2zHgGu.png">
-<meta property="og:image" content="https://i.imgur.com/Eafj6pF.png">
-<meta property="og:image" content="https://i.imgur.com/dXLruUk.png">
-<meta property="og:image" content="https://i.imgur.com/jzb9I6F.png">
-<meta property="og:image" content="https://i.imgur.com/aefbkdK.png">
-<meta property="og:image" content="https://i.imgur.com/R6I3Rgq.png">
-<meta property="og:updated_time" content="2019-03-25T01:57:09.727Z">
+<meta property="og:image" content="https://jaychoubaby.github.io/2019/01/25/Chrome%20原生工具进行网页长截图/1553737809259.png">
+<meta property="og:image" content="https://jaychoubaby.github.io/2019/01/25/Chrome%20原生工具进行网页长截图/1553737866246.png">
+<meta property="og:image" content="https://jaychoubaby.github.io/2019/01/25/Chrome%20原生工具进行网页长截图/1553737909027.png">
+<meta property="og:updated_time" content="2019-03-28T01:52:57.719Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chrome 原生工具进行网页长截图">
 <meta name="twitter:description" content="首先按下 ⌘Command + ⌥Option + I（Windows 为 F12）快捷键，召唤出调试界面。    随后，按下 ⌘Command + ⇧Shift + P（Windows 为 Ctrl + Shift + P），输入命令 Capture full size screenshot（只输前几个字母就能找到），敲下回车，Chrome 就会自动截取整个网页内容并保存至本地。由于是渲染引擎">
-<meta name="twitter:image" content="https://i.imgur.com/g2zHgGu.png">
+<meta name="twitter:image" content="https://jaychoubaby.github.io/2019/01/25/Chrome%20原生工具进行网页长截图/1553737809259.png">
 
 
 
@@ -449,7 +447,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-25 09:57:09" itemprop="dateModified" datetime="2019-03-25T09:57:09+08:00">2019-03-25</time>
+                <time title="修改时间：2019-03-28 09:52:57" itemprop="dateModified" datetime="2019-03-28T09:52:57+08:00">2019-03-28</time>
               
             
           </span>
@@ -516,21 +514,18 @@
         <ol>
 <li>首先按下 <code>⌘Command + ⌥Option + I</code>（Windows 为 <code>F12</code>）快捷键，召唤出调试界面。</li>
 </ol>
-<p><img src="https://i.imgur.com/g2zHgGu.png" alt=""></p>
+<p><img src="/2019/01/25/Chrome 原生工具进行网页长截图/1553737809259.png" alt="1553737809259"></p>
 <ol start="2">
 <li>随后，按下 <code>⌘Command + ⇧Shift + P</code>（Windows 为 <code>Ctrl + Shift + P</code>），输入命令 <code>Capture full size screenshot</code>（只输前几个字母就能找到），敲下回车，Chrome 就会自动截取整个网页内容并保存至本地。由于是渲染引擎直接输出，其比普通扩展速度更快，分辨率也更高。</li>
 </ol>
-<p><img src="https://i.imgur.com/Eafj6pF.png" alt=""></p>
+<p><img src="/2019/01/25/Chrome 原生工具进行网页长截图/1553737866246.png" alt="1553737866246"></p>
 <ol start="3">
 <li>除了普通长截图以外，你还可以利用这一功能截取手机版网页长图。只需要按下 <code>⌘Command + ⇧Shift + M</code> （Windows 为 <code>Ctrl + Shift + M</code>）模拟移动设备，再按刚才的方法运行命令就可以了。在顶部的工具栏中，你可以选择要模拟的设备和分辨率等设置。</li>
 </ol>
-<p><img src="https://i.imgur.com/dXLruUk.png" alt=""></p>
-<p><img src="https://i.imgur.com/jzb9I6F.png" alt=""></p>
+<p><img src="/2019/01/25/Chrome 原生工具进行网页长截图/1553737909027.png" alt="1553737909027"></p>
 <ol start="4">
 <li>如果你想准确截取网页的某一部分，可以按下 <code>⌘Command + ⇧Shift + C</code>（Windows 为 <code>Ctrl + Shift + C</code>）嗅探元素。选中想要的部分后，再运行 <code>Capture node screenshot</code> 命令，一张完美的选区截图就诞生了。</li>
 </ol>
-<p><img src="https://i.imgur.com/aefbkdK.png" alt=""></p>
-<p><img src="https://i.imgur.com/R6I3Rgq.png" alt=""></p>
 
       
     </div>
@@ -556,9 +551,9 @@
           
             <a href="/tags/随笔/" rel="tag"><i class="fa fa-tag"></i> 随笔</a>
           
-            <a href="/tags/技巧/" rel="tag"><i class="fa fa-tag"></i> 技巧</a>
-          
             <a href="/tags/Chrome/" rel="tag"><i class="fa fa-tag"></i> Chrome</a>
+          
+            <a href="/tags/技巧/" rel="tag"><i class="fa fa-tag"></i> 技巧</a>
           
             <a href="/tags/截图/" rel="tag"><i class="fa fa-tag"></i> 截图</a>
           
@@ -840,12 +835,6 @@
 
 
 
-
-  
-    
-    
-  
-  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
 
 
 
@@ -1288,5 +1277,5 @@
 
   
 
-<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"superSample":2,"width":100,"height":150,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"log":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"superSample":2,"width":100,"height":150,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":false,"scale":0.1},"log":false});</script></body>
 </html>
