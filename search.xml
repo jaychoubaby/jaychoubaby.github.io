@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[springboot 返回apidoc html踩的坑]]></title>
+    <url>%2F2019%2F04%2F11%2Fspringboot-%E8%BF%94%E5%9B%9Eapidoc-html%E8%B8%A9%E7%9A%84%E5%9D%91%2F</url>
+    <content type="text"><![CDATA[项目用apidoc做接口文档，之前一直用的swagger，可是怕我坑惨了 先说下apidoc的搭建，网上教程很多 1234567891011121314151617181920212223241. Install node.jsTo check if node.js is successfully installed:λ node --versionv10.15.02. After node.js installed, install apiDoc.npm install apidoc -gTo check if apiDoc is successfully installed:λ apidoc -hUsage: apidoc [options]Options:......3. Set the apidoc configurations in apidoc.json.4. Write annotations above your functions in your project.5. Generate static api doc files.λ apidoc -i user\ -o user\src\main\webapp\apidoc 无非就是这五个步骤，不多说，执行apidoc -i user\ -o user\src\main\webapp\apidoc 后在webapp下会生成这样的文件： 其实直接点击index.html就可以打开接口文档页面，只是url是本地路径，不方便，部署之后也不方便访问，于是新建一个控制器来调度访问，如下 ​ 1234567891011121314151617@Controller@RequestMapping(value = "/apidoc")public class ApidocController &#123; private static final Logger LOGGER = LoggerFactory.getLogger(ApidocController.class); @RequestMapping(value = "/index") public void index(HttpServletRequest request, HttpServletResponse response) &#123; LOGGER.info("Go to apidoc index page"); try &#123; request.getRequestDispatcher("/apidoc/index.html").forward(request, response); return; &#125; catch (ServletException | IOException e) &#123; e.printStackTrace(); &#125; &#125;&#125; springboot访问HTML需要依赖thymeleaf,在pom.xml加上依赖 ​ 12345&lt;!--thymeleaf template--&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;&lt;/dependency&gt; 然后问题来了，用springboot内置tomcat启动项目之后，是死活访问不到静态页面的，不行你可以试试，你会看见可爱的404 网上查了半天没找到原因，可能也就我一个人遇到这个情况吧，然后各种原因查找之后，用外置tomcat启动，发射 ——–&gt; 你就看到它了，具体原因未查明也查不明，不倒腾了，反正线上部署肯定也是外置tomcat，影响不大，end.]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>apidoc</tag>
+        <tag>html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot入参直接转换时间格式]]></title>
+    <url>%2F2019%2F04%2F08%2Fspringboot%E5%85%A5%E5%8F%82%E7%9B%B4%E6%8E%A5%E8%BD%AC%E6%8D%A2%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[##JDK8新增了Localdate和Localdatetime，对时间操作更加方便，springboot入参可直接将string转为时间格式，如下 123456789101112@RequestMapping("/view/list")@ApiOperation("获取用户信息列表")public R list(Integer id, String account, String nickname, @RequestParam(value = "startTime",required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startTime, @RequestParam(value = "endTime",required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endTime, Integer pageNum, Integer pageSize)&#123; List&lt;UserInfo&gt; list = userInfoService.getList(); return R.ok().put("list",list);&#125;]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>入参</tag>
+        <tag>date</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Nacos注册中心初体验]]></title>
     <url>%2F2019%2F03%2F26%2FNacos%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E5%88%9D%E4%BD%93%E9%AA%8C%2F</url>
     <content type="text"><![CDATA[Nacos注册中心初体验接触SpringCloud以来一直是用 eurrka做注册中心，闭源之后Nacos必然是大趋势，最近空闲刚好尝试一下。 Nacos既可以做注册中心也可以替代spring cloud config统一管理配置，今天只是尝试一下注册中心用法。 搭建与启动服务端搭建服务有两种方式： 1.源码编译：https://github.com/alibaba/nacos/releases 2.直接下载压缩包解压后启动 启动成功后，访问 http://127.0.0.1:8848/nacos 即可看到登录页面，默认账号密码都是nacos 12Linux/Unix/Mac 操作系统，执行命令 sh startup.sh -m standaloneWindows 操作系统，执行命令 cmd startup.cmd 搭建客户端并注册 创建spring boot 项目 配置pom.xml 12345&lt;!-- nacos 的服务注册与发现 --&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt; &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;&lt;/dependency&gt; 12345678910111213141516&lt;dependencyManagement&gt; &lt;dependencies&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt; &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt; &lt;version&gt;Greenwich.RELEASE&lt;/version&gt; &lt;type&gt;pom&lt;/type&gt; &lt;scope&gt;import&lt;/scope&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt; &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt; &lt;version&gt;0.2.1.RELEASE&lt;/version&gt; &lt;/dependency&gt; &lt;/dependencies&gt;&lt;/dependencyManagement&gt; 配置启动类 123456789@SpringBootApplication@EnableDiscoveryClient //加注解public class NacosApplication &#123; public static void main(String[] args) &#123; SpringApplication.run(NacosApplication.class, args); &#125;&#125; 配置 application.yml 12345678910111213141516171819server: port: 8001spring: application: name: test-provider cloud: nacos: discovery: server-addr: 127.0.0.1:8848management: endpoints: web: exposure: include: '*' endpoint: health: # 是否展示健康检查详情 show-details: always 至此，项目启动后在服务端页面便能看到服务已经注册上来了]]></content>
@@ -58,6 +84,20 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Mac常用软件收藏]]></title>
+    <url>%2F2019%2F01%2F25%2FMac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%94%B6%E8%97%8F%2F</url>
+    <content type="text"><![CDATA[软件收藏 xclient | 常用软件都有，个别因为版权问题下架，所有安装包解压需要密码 xclient.info 爱情守望者 | 差不多，安装包没有密码 史蒂芬周的博客 | 一个博客，居然还收费下载，有的也免费，随便看看还行，主要用来看软件更新日志 mac-torrent-download | 神站不解释，不过广告超多，而且都是强制广告，需翻墙 油猴脚本 | 油猴的脚本站 MSDN | 可以下载到纯净的系统安装包 旧版iTunes | 可以下载最后一个支持下载安装包的iTunes Homebrew | macOS 缺失的软件包的管理器 freedownloadmanager | 一个全平台的下载器（顶替迅雷） idea.lanyus | 破解idea专用 idea 2018.1破解激活方法,有效期至2099年 | 目前有效 sequelpro | mac上一个mysql图形化界面工具，超喜欢，可惜不更新了 IINA | Mac上一个开源播放器，超好用 PicGo | 全平台图床工具 Mos | 一个用于在 MacOS 上平滑你的鼠标滚动效果或单独设置滚动方向的小工具, 让你的滚轮爽如触控板 ieaseMusic | Mac上开源的网易云播放器，界面不错 Photon | 基于aria2的轻量级多线程下载器。 迅雷 U 享版 | 迅雷 U 享版 irreader | 订阅网页、RSS和Podcast，具备急速的阅读体验，高品质、免费、无广告、多平台的RSS阅读器。 Glacier | 展示macos图标 Easy-to-RSS | 功能：获取网页RSS，复制到剪贴板并打开该RSS网页 Background Music | mac上可以单独调节各种音量大小的软件 壁纸网站 https://interfacelift.com/wallpaper/downloads/date/any/ | 质量高，更新慢 https://unsplash.com/ | 质量中等，更新较快 https://alpha.wallhaven.cc/random?page=2 https://wallions.com/search https://www.lifeofpix.com/ https://visualhunt.com/ https://wallions.com/search/mountain http://streetwill.co/ https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat https://lai.yuweining.cn/archives/575/]]></content>
+      <categories>
+        <category>MacBook</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>MacBook</tag>
+        <tag>收藏</tag>
+        <tag>软件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[linux docker Shadowsocks 常规操作]]></title>
     <url>%2F2019%2F01%2F25%2Flinux%20docker%20Shadowsocks%20%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[linux上跑ss，真的很简单第一步先装docker,CentOS最好是64位的，最好是CentOS7,6的话没试过应该有其他的办法 先检查内核版本 $ uname -r 返回的值大于3.10即可。 使用 sudo 或 root 权限的用户登入终端。 确保yum是最新的 $ yum update 安装 docker yum install docker -y 启动 docker 服务 service docker start chkconfig docker on 拉取 docker 镜像 docker pull oddrationale/docker-shadowsocks ! 运行 docker 镜像 docker run -d -p 12345:12345 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 12345 -k welcome -m aes-256-cfb -d参数允许 docker 常驻后台运行 -p来指定要映射的端口，这里端口号统一保持一致即可。例如：12345 -s服务器 IP 地址，不用动 -k后面设置你的 VPN 的密码，比如：welcome -m指定加密方式 运行docker ps查看容器是否已成功运行起来了。 docker的常用命令汇总1、docker的启动、停止、重启[root@localhost ~]# service docker restart Redirecting to /bin/systemctl restart docker.service [root@localhost ~]# service docker stop Redirecting to /bin/systemctl stop docker.service [root@localhost ~]# service docker start Redirecting to /bin/systemctl start docker.service 2、docker创建一个容器[root@localhost ~]# docker run -it -v /docker_test:/yufei --name yufei_6 centos [root@724e7701f0d4 /]# -i：允许我们对容器内的 (STDIN) 进行交互 -t：在新容器内指定一个伪终端或终端 -v：是挂在宿机目录， /docker_test是宿机目录，/yufei是当前docker容器的目录，宿机目录必须是绝对的。 --name：是给容器起一个名字，可省略，省略的话docker会随机产生一个名字 3、docker启动的容器列表[root@localhost ~]# docker ps CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 724e7701f0d4 centos &quot;/bin/bash&quot; 4 minutes ago Up 4 minutes yufei_6 f9097691663e centos &quot;/bin/bash&quot; 5 minutes ago Up 5 minutes yufei_5 [root@localhost ~]# 4、查看docker创建的所有容器[root@localhost ~]# docker ps -a CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 724e7701f0d4 centos &quot;/bin/bash&quot; 5 minutes ago Up 5 minutes yufei_6 f9097691663e centos &quot;/bin/bash&quot; 6 minutes ago Up 6 minutes yufei_5 e59a540fb979 centos &quot;/bin/base&quot; 6 minutes ago Created yufei_4 ff49dfedea4f centos &quot;/bin/bash&quot; 2 hours ago Exited (137) 10 minutes ago yufei_03 d2cc70abb5a5 centos &quot;/bin/bash&quot; 2 hours ago Exited (127) 2 hours ago yufei_02 2d48fc5b7c17 centos &quot;/bin/bash&quot; 2 hours ago Exited (127) 2 hours ago yufei_01 [root@localhost ~]# 5、启动、停止、重启某个docker 容器[root@localhost ~]# docker start yufei_01 yufei_01 [root@localhost ~]# docker stop yufei_01 yufei_01 [root@localhost ~]# docker restart yufei_01 yufei_01 [root@localhost ~]# 6、查看指定容器的日志记录[root@back bin]# docker ps CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES baa114bbd3cd oddrationale/docker-shadowsocks &quot;/usr/local/bin/ss...&quot; 28 minutes ago Up 28 minutes 0.0.0.0:9527-&gt;9527/tcp eloquent_goldwasser [root@back bin]# docker logs -f baa114bbd3cd 7、删除某个容器，若正在运行，需要先停止[root@localhost ~]# docker rm yufei_01 Error response from daemon: You cannot remove a running container 2d48fc5b7c17b01e6247cbc012013306faf1e54f24651d5e16d6db4e15f92d33. Stop the container before attempting removal or use -f [root@localhost ~]# docker stop yufei_01 yufei_01 [root@localhost ~]# docker rm yufei_01 yufei_01 [root@localhost ~]# 8、删除所有容器[root@localhost ~]# docker rm $(docker ps -a -q) Error response from daemon: You cannot remove a running container 724e7701f0d4a830167e21f75b470235a0e408fd6cc2913403426e96f69cba11. Stop the container before attempting removal or use -f Error response from daemon: You cannot remove a running container f9097691663ee36f9d2ee56afbdcca0eeb8b63e5590ddf18c0c42954c93b9f06. Stop the container before attempting removal or use -f [root@localhost ~]# [root@localhost ~]# [root@localhost ~]# docker stop yufei_6 yufei_6 [root@localhost ~]# docker stop yufei_5 yufei_5 [root@localhost ~]# docker rm $(docker ps -a -q) 724e7701f0d4 f9097691663e [root@localhost ~]# 9、镜像列出镜像:docker image ls或docker images列出所有镜像：docker image ls -a列出所有镜像：docker images -a查看镜像、容器、数据卷所占用的空间:docker system df删除镜像:docker image rm]]></content>
@@ -70,20 +110,6 @@
         <tag>docker</tag>
         <tag>Shadowsocks</tag>
         <tag>ss</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Mac常用软件收藏]]></title>
-    <url>%2F2019%2F01%2F25%2FMac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%94%B6%E8%97%8F%2F</url>
-    <content type="text"><![CDATA[软件收藏 xclient | 常用软件都有，个别因为版权问题下架，所有安装包解压需要密码 xclient.info 爱情守望者 | 差不多，安装包没有密码 史蒂芬周的博客 | 一个博客，居然还收费下载，有的也免费，随便看看还行，主要用来看软件更新日志 mac-torrent-download | 神站不解释，不过广告超多，而且都是强制广告，需翻墙 油猴脚本 | 油猴的脚本站 MSDN | 可以下载到纯净的系统安装包 旧版iTunes | 可以下载最后一个支持下载安装包的iTunes Homebrew | macOS 缺失的软件包的管理器 freedownloadmanager | 一个全平台的下载器（顶替迅雷） idea.lanyus | 破解idea专用 idea 2018.1破解激活方法,有效期至2099年 | 目前有效 sequelpro | mac上一个mysql图形化界面工具，超喜欢，可惜不更新了 IINA | Mac上一个开源播放器，超好用 PicGo | 全平台图床工具 Mos | 一个用于在 MacOS 上平滑你的鼠标滚动效果或单独设置滚动方向的小工具, 让你的滚轮爽如触控板 ieaseMusic | Mac上开源的网易云播放器，界面不错 Photon | 基于aria2的轻量级多线程下载器。 迅雷 U 享版 | 迅雷 U 享版 irreader | 订阅网页、RSS和Podcast，具备急速的阅读体验，高品质、免费、无广告、多平台的RSS阅读器。 Glacier | 展示macos图标 Easy-to-RSS | 功能：获取网页RSS，复制到剪贴板并打开该RSS网页 Background Music | mac上可以单独调节各种音量大小的软件 壁纸网站 https://interfacelift.com/wallpaper/downloads/date/any/ | 质量高，更新慢 https://unsplash.com/ | 质量中等，更新较快 https://alpha.wallhaven.cc/random?page=2 https://wallions.com/search https://www.lifeofpix.com/ https://visualhunt.com/ https://wallions.com/search/mountain http://streetwill.co/ https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat https://lai.yuweining.cn/archives/575/]]></content>
-      <categories>
-        <category>MacBook</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>MacBook</tag>
-        <tag>收藏</tag>
-        <tag>软件</tag>
       </tags>
   </entry>
   <entry>
