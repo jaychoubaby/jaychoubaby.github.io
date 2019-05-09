@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>女朋友问我怎么实现后端校验验证码</title>
+      <link href="/2019/05/09/%E5%A5%B3%E6%9C%8B%E5%8F%8B%E9%97%AE%E6%88%91%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%90%8E%E7%AB%AF%E6%A0%A1%E9%AA%8C%E9%AA%8C%E8%AF%81%E7%A0%81/"/>
+      <url>/2019/05/09/%E5%A5%B3%E6%9C%8B%E5%8F%8B%E9%97%AE%E6%88%91%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%90%8E%E7%AB%AF%E6%A0%A1%E9%AA%8C%E9%AA%8C%E8%AF%81%E7%A0%81/</url>
+      
+        <content type="html"><![CDATA[<h5 id="风和日丽的早上开车和女朋友一起上班，说道一些有的没的技术，突然女朋友问我怎么实现后端校验验证码，我之前是看过一点别人写的逻辑，支支吾吾的结果没讲清楚，女朋友说我装逼失败，这怎么能忍，于是奋发图强学校了一下我们公司大佬的逻辑，原来核心就是开源的kaptcha。"><a href="#风和日丽的早上开车和女朋友一起上班，说道一些有的没的技术，突然女朋友问我怎么实现后端校验验证码，我之前是看过一点别人写的逻辑，支支吾吾的结果没讲清楚，女朋友说我装逼失败，这怎么能忍，于是奋发图强学校了一下我们公司大佬的逻辑，原来核心就是开源的kaptcha。" class="headerlink" title="风和日丽的早上开车和女朋友一起上班，说道一些有的没的技术，突然女朋友问我怎么实现后端校验验证码，我之前是看过一点别人写的逻辑，支支吾吾的结果没讲清楚，女朋友说我装逼失败，这怎么能忍，于是奋发图强学校了一下我们公司大佬的逻辑，原来核心就是开源的kaptcha。"></a>风和日丽的早上开车和女朋友一起上班，说道一些有的没的技术，突然女朋友问我怎么实现后端校验验证码，我之前是看过一点别人写的逻辑，支支吾吾的结果没讲清楚，女朋友说我装逼失败，这怎么能忍，于是奋发图强学校了一下我们公司大佬的逻辑，原来核心就是开源的<code>kaptcha</code>。</h5><p>先来一段官方介绍，用来表示这是一篇技术博客：</p><h3 id="Kaptcha-简介"><a href="#Kaptcha-简介" class="headerlink" title="Kaptcha 简介"></a>Kaptcha 简介</h3><p>Kaptcha 是一个非常实用的验证码生成工具，它是基于SimpleCaptcha的开源项目。通过调整Kaptcha配置可以生成各种样式的验证码。</p><p>使用Kaptcha可以方便的配置以下细节：</p><ul><li>验证码的字体</li><li>验证码字体的大小</li><li>验证码字体的字体颜色</li><li>验证码内容的范围</li><li>验证码图片的大小，边框，边框粗细，边框颜色</li><li>验证码的干扰线</li><li>验证码的样式</li></ul><h5 id="好了，正式完了就开始说一下实现思路吧，其实也挺简单"><a href="#好了，正式完了就开始说一下实现思路吧，其实也挺简单" class="headerlink" title="好了，正式完了就开始说一下实现思路吧，其实也挺简单"></a>好了，正式完了就开始说一下实现思路吧，其实也挺简单</h5><ol><li>前端请求后台接口，后台随机生成一个uuid给前端</li></ol><p><img src="/2019/05/09/女朋友问我怎么实现后端校验验证码/1557362747956.png" alt="1557362747956"></p><ol start="2"><li><p>前端拿到uuid之后，通过这个uuid请求后台，后台通过uuid生成一张验证码图片返给前端</p><p><img src="/2019/05/09/女朋友问我怎么实现后端校验验证码/1557362821183.png" alt="1557362821183"></p></li></ol><p><img src="/2019/05/09/女朋友问我怎么实现后端校验验证码/1557362862840.png" alt="1557362862840"></p><p>[^这里说一下后端的实现：其实这个uuid是为了和图片做绑定而产生的，在数据库的表示如下图所示]: </p><p><img src="/2019/05/09/女朋友问我怎么实现后端校验验证码/1557362963541.png" alt="1557362963541"></p><ol start="3"><li>登录校验验证码：用户登录填写账号、密码、验证码，<strong>带着uuid</strong> （重点：带着uuid，这个uuid其实就相当于这张图片验证码的一个识别，只有带着这个，后台才知道你用的是哪张验证码，才有办法去校验）调用后台登录接口，后台 <strong>通过带过来的uuid去查询这张图片验证码的文本验证码</strong>是多少，然后比对校验就可以了，是不是很简单。</li></ol><p>当然验证码都是有失效时间的，还有验证码用完就删掉啊，这个就不多说了，聪明的人自然会懂，我女朋友那么聪明，应该会懂的 O(∩_∩)O~</p><p>下面的是具体实现代码，留作备用观摩。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"captcha.jpg"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">captcha</span><span class="params">(HttpServletResponse response, @RequestParam String uuid)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">       <span class="comment">//1.进入函数</span></span><br><span class="line">       logger.info(<span class="string">"-&gt; auth login: generate captcha"</span>);</span><br><span class="line"></span><br><span class="line">       <span class="comment">//2 验证uuid格式</span></span><br><span class="line">       <span class="keyword">if</span>(!TypeValidatorUtil.isUuid(uuid))&#123;</span><br><span class="line">           logger.info(<span class="string">"-- auth login: uuid not valid"</span>);</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> CPException(<span class="string">"uuid 不合法"</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3.response设置</span></span><br><span class="line">   response.setHeader(<span class="string">"Cache-Control"</span>, <span class="string">"no-store, no-cache"</span>);</span><br><span class="line">   response.setContentType(<span class="string">"image/jpeg"</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">try</span>&#123;</span><br><span class="line">           <span class="comment">//4.生成图片验证码并将对应uuid和code保存数据库</span></span><br><span class="line">           BufferedImage image = authCaptchaService.getCaptcha(uuid);</span><br><span class="line"></span><br><span class="line">           <span class="comment">//5.图片验证码返回到前端</span></span><br><span class="line">           ServletOutputStream out = response.getOutputStream();</span><br><span class="line">           ImageIO.write(image, <span class="string">"jpg"</span>, out);</span><br><span class="line"></span><br><span class="line">           <span class="comment">//6.正常退出函数</span></span><br><span class="line">           logger.info(<span class="string">"&lt;- auth login: generate captcha"</span>);</span><br><span class="line"></span><br><span class="line">           <span class="comment">//7.关闭连接</span></span><br><span class="line">           IOUtils.closeQuietly(out);</span><br><span class="line">       &#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">           logger.error(e.getMessage());</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> CPException(<span class="string">"IO错误"</span>);</span><br><span class="line">       &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">           logger.error(e.getMessage());</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> CPException(<span class="string">"获取验证码失败"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> BufferedImage <span class="title">getCaptcha</span><span class="params">(String uuid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(StringUtils.isBlank(uuid))&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> CPException(<span class="string">"uuid不能为空"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//生成文字验证码</span></span><br><span class="line">    String code = producer.createText();</span><br><span class="line"></span><br><span class="line">    AuthCaptchaEntity captchaEntity = <span class="keyword">new</span> AuthCaptchaEntity();</span><br><span class="line">    captchaEntity.setUuid(uuid);</span><br><span class="line">    captchaEntity.setCode(code);</span><br><span class="line">    <span class="comment">//5分钟后过期</span></span><br><span class="line">    captchaEntity.setExpireTime(DateUtil.addDateMinutes(<span class="keyword">new</span> Date(), <span class="number">5</span>));</span><br><span class="line">    authCaptchaDao.insertCaptcha(captchaEntity);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> producer.createImage(code);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.axet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>kaptcha<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;kaptcha.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure><hr><p>附：</p><p>JCaptcha简介</p><p>JCapthca是一个开源的用来生成图形验证码的Java开源组件，它非常强大，不光是可以生成图片式的验证码，还可以生成声音式的。</p><p>JCaptcha是CAPTCHA里面的一个比较著名的项目。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+            <tag> kaptcha </tag>
+            
+            <tag> 女朋友 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>初尝java8 lambda表达式</title>
       <link href="/2019/04/26/%E5%88%9D%E5%B0%9Djava8-lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
       <url>/2019/04/26/%E5%88%9D%E5%B0%9Djava8-lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
@@ -564,11 +593,11 @@
             
             <tag> 随笔 </tag>
             
-            <tag> 学习 </tag>
-            
             <tag> 博客 </tag>
             
             <tag> hexo </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
@@ -595,11 +624,11 @@
             
             <tag> 随笔 </tag>
             
-            <tag> 学习 </tag>
-            
             <tag> 博客 </tag>
             
             <tag> hexo </tag>
+            
+            <tag> 学习 </tag>
             
         </tags>
       
