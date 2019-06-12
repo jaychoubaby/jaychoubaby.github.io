@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[使用Cloudflare中转V2Ray流量]]></title>
+    <url>%2F2019%2F06%2F12%2F%E4%BD%BF%E7%94%A8Cloudflare%E4%B8%AD%E8%BD%ACV2Ray%E6%B5%81%E9%87%8F%2F</url>
+    <content type="text"><![CDATA[担心 IP 被墙？或者不想 IP 被墙？是的！使用 Cloudflare 来中转 V2Ray 的 WebSocket 流量就行！由于使用了 Cloudflare 中转，所以墙根本不知道背后的 IP 是多少，你可以愉快的玩耍了~ 提醒如果你不是使用 移动宽带 的用户，那么使用 Cloudflare 中转的速度相对来说是比较慢的，这个是因为线路的问题，无解。警告警告警告该教程目前写得比较简陋，以后应该会增加详细图文教程V2Ray 的 WS + TLS 不是神话，如果你没学会走路就不要急着跑大佬。。。你如果是从来没接触过 V2Ray 的人一上来就开玩 WS + TLS你真的不怕摔跤吗你有解析过域名吗，知道什么是 A 记录吗，会修改 NS 吗。。如果不懂，那就先补上这些知识再往下看如果实在想玩 WS + TLS，请认认真真看教程教程真的写得比较简陋，如果实在折腾不成功，那也很正常的，改天再来或者直接放弃 这是一个提示真是无聊，折腾啥啊。买个搬瓦工 Just My Socks 先凑合用着就可以了，被墙自动换 IP，无须担心 IP 被墙！其他的等风声过了再说了，套什么 CF，速度慢到怀疑人生。 准备一个域名，建议使用免费域名确保域名已经可以在 Cloudflare 正常使用。在 Cloudflare 的 Overview 选项卡可以查看域名状态，请确保为激活状态，即是： Status: Active怎么 SSH 连接上被墙的 IP ? Xshell 在属性那里可以设置代理，或者你可以在一台没有被墙的境外 VPS 使用 iptables 转发数据到被墙的机器上，此处不细说了。 添加域名解析在 DNS 选项卡那边添加一个 A 记录的域名解析，假设你的域名是 233blog.com，并且想要使用 www.233blog.com 作为翻墙的域名那么在 DNS 那里配置，Name 写 www，IPv4 address 写你的 VPS IP，务必把云朵点灰，然后选择 Add Record 来添加解析记录即可(如果你已经添加域名解析，请务必把云朵点灰，即是 DNS only) OK，确保操作没有问题的话，继续 安装 V2Ray 如果你已经使用本人提供的 V2Ray 一键安装脚本并安装了 V2Ray，那就直接输入 v2ray config修改传输协议为 WebSocket + TLS 如果你并没有使用本站提供的 V2Ray 一键安装脚本来安装 V2Ray那么现在开始使用吧，最好用的 V2Ray 安装脚本，保证你满意使用 root 用户输入下面命令安装或卸载 1bash &lt;(curl -s -L https://git.io/v2ray.sh) 如果提示 curl: command not found ，那是因为你的小鸡没装 Curlubuntu/debian 系统安装 Curl 方法: apt-get update -y &amp;&amp; apt-get install curl -ycentos 系统安装 Curl 方法: yum update -y &amp;&amp; yum install curl -y安装好 curl 之后就能安装脚本了 之后选择安装，传输协议选择 WebSocket + TLS (即是选择 4 )，V2Ray 端口随便，不要是 80 和 443 即可，然后输入你的域名，域名解析 Y ，自动配置 TLS 也是 Y ，其他就默认吧，一路回车。等待安装完成如果你的域名没有正确解析，安装会失败，解析相关看上面的 添加域名解析 安装完成后会展示 V2Ray 的配置信息，并且会询问是否生成二维码等，不用管它，直接回车 然后输入 v2ray status 查看一下运行状态，请确保 V2Ray 和 Caddy 都在运行 如果没有问题的话，继续 设置 Crypto 和 开启中转确保 Cloudflare 的 Crypto 选项卡的 SSL 为 Full并且请确保 SSL 选项卡有显示 Universal SSL Status Active Certificate 这样的字眼，如果你的 SSL 选项卡没有显示这个，不要急，只是在申请证书，24 小时内可以搞定。 然后在 DNS 选项卡那里，把刚才点灰的那个云朵图标，点亮它，一定要点亮一定要点亮一定要点亮 云朵图标务必为橙色状态，即是 DNS and HTTP proxy(CDN) V2Ray 配置信息很好，现在接下来配置客户端使用输入 v2ray info 即可查看 V2Ray 的配置，如果你有使用某些 V2Ray 客户端，可以根据给出的配置的信息来配置使用了。赶紧测试吧 V2Ray 客户端使用教程：WindowsV2RayN使用教程 什么鬼？对啊，就是如此简单啊，要不然你以为啊。 备注如果你的 VPS 位置是在美国西海岸的话，速度应该还算可以吧，如果不是在美国西海岸，那么也许速度会很慢，不过好在不用担心 IP 被墙或者能让被墙的 IP 重生也挺好的。难道不是么？如果你使用移动网络的话，那么 Cloudflare 的中转节点可能会在香港，速度也许会不错 (不完全保证)。 无限域名备用懒得写了，自己悟吧…反正绝大多数人只要知道怎么把墙的 IP 救活就行…算啦，我还是提示一下吧，WebSocket 协议，80 端口，Cloudflare 的 Crypto 选项卡 SSL 为 Flexible如果没有太多必要，不需要折腾这 结束哇，没有图文教程你就看不懂的话，我能怎么办，我也很绝望，我更加迷茫 转自：https://github.com/233boy/v2ray/wiki/%E4%BD%BF%E7%94%A8Cloudflare%E4%B8%AD%E8%BD%ACV2Ray%E6%B5%81%E9%87%8F]]></content>
+      <categories>
+        <category>ss</category>
+      </categories>
+      <tags>
+        <tag>ss</tag>
+        <tag>v2ray</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[V2Ray一键安装脚本]]></title>
+    <url>%2F2019%2F06%2F12%2FV2Ray%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC%2F</url>
+    <content type="text"><![CDATA[支持 V2Ray 绝大多数传输协议，WebSocket + TLS，HTTP/2，Shadowsocks，动态端口，集成 BBR 和锐速优化等。 前言V2Ray 官网：https://www.v2ray.com V2Ray 是一个于 Shadowsocks 之后非常好用的代理软件，但是由于 V2Ray 的配置略复杂，GUI 客户端不完善，所以 V2Ray 并没有像 Shadowsocks 在科学上网人群之中那么流行。不过我想，像我这种小小白萌新，更需要的是一个好用的一键安装脚本……所以，此脚本是为了方便像我这种小小白萌新更加容易去使用 V2Ray，配置 V2Ray。希望对你有帮助 ^_^ 如果你是毫无经验的小白，搭建 V2Ray 请看此教程：V2Ray搭建详细图文教程 温馨提示特么这个脚本没有挖矿，没有挖矿，没有挖矿。 我很抱歉……认真的开了个玩笑脚本是开源的，开源地址： https://github.com/233boy/v2ray 功能特点 支持 V2Ray 多数传输协议 支持 WebSocket + TLS / HTTP/2 支持 动态端口 (WebSocket + TLS，Socks5， HTTP/2 除外) 支持 屏蔽广告 支持 配置 Shadowsocks 支持 下载客户端配置文件 (不用 Xshell 也可以下载) 客户端配置文件同时支持 SOCKS 和 HTTP 支持 生成 V2Ray 配置二维码链接 (仅适用部分客户端) 支持 生成 V2Ray 配置信息链接 支持 生成 Shadowsocks 配置二维码链接 支持修改 V2Ray 传输协议 支持修改 V2Ray 端口 支持修改 动态端口 支持修改 用户ID 支持修改 TLS 域名 支持修改 Shadowsocks 端口 支持修改 Shadowsocks 密码 支持修改 Shadowsocks 加密协议 自动启用 BBR 优化 (如果内核支持) 集成可选安装 BBR (by teddysun.com) 集成可选安装 锐速 (by moeclub.org) 一键 查看运行状态 / 查看配置信息 / 启动 / 停止 / 重启 / 更新 / 卸载 / 等等… 人性化向导 &amp; 纯净安装 &amp; 卸载彻底 安装或卸载 温馨提醒，此脚本默认屏蔽一些不友好的网站！(仅限轮子相关) 要求：Ubuntu 16+ / Debian 8+ / CentOS 7+ 系统推荐使用 Debian 9 系统，脚本会自动启用 BBR 优化。备注：不推荐使用 Debian 8 系统，因为 Caddy 申请证书可能会出现一些莫名其妙的问题强烈推荐使用 搬瓦工VPS，稳定，快速，针对中国线路专门优化，完全无须担心跑路，服务好，30天退款保证。在这里可以找到 搬瓦工 VPS 套餐大全 ，优惠码在这里： 搬瓦工 VPS 优惠码使用 root 用户输入下面命令安装或卸载 1bash &lt;(curl -s -L https://git.io/v2ray.sh) 如果提示 curl: command not found ，那是因为你的 VPS 没装 Curlubuntu/debian 系统安装 Curl 方法: apt-get update -y &amp;&amp; apt-get install curl -ycentos 系统安装 Curl 方法: yum update -y &amp;&amp; yum install curl -y安装好 curl 之后就能安装脚本了 备注：安装完成后，输入 v2ray 即可管理 V2Ray如果提示你的系统不支持此脚本，那么请尝试更换系统 下面是此脚本的一些截图 安装选项 配置 Shadowsocks 安装完成 管理面板 Telegram 专用代理如果你在使用 Telegram 的话，你可以配置一个 Telegram 的专用代理，这样来，在某些情况下你就不需要再开一个代理软件了。输入 v2ray tg 即可配置 TG 专用代理配置 Telegram MTProto Telegram MTProto 配置信息 快速管理v2ray info 查看 V2Ray 配置信息v2ray config 修改 V2Ray 配置v2ray link 生成 V2Ray 配置文件链接v2ray infolink 生成 V2Ray 配置信息链接v2ray qr 生成 V2Ray 配置二维码链接v2ray ss 修改 Shadowsocks 配置v2ray ssinfo 查看 Shadowsocks 配置信息v2ray ssqr 生成 Shadowsocks 配置二维码链接v2ray status 查看 V2Ray 运行状态v2ray start 启动 V2Rayv2ray stop 停止 V2Rayv2ray restart 重启 V2Rayv2ray log 查看 V2Ray 运行日志v2ray update 更新 V2Rayv2ray update.sh 更新 V2Ray 管理脚本v2ray uninstall 卸载 V2Ray 配置文件路径V2Ray 配置文件路径：/etc/v2ray/config.jsonCaddy 配置文件路径：/etc/caddy/Caddyfile脚本配置文件路径: /etc/v2ray/233blog_v2ray_backup.conf 警告，请不要修改脚本配置文件，免得出错。。如果你不是有特别的需求，也不要修改 V2Ray 配置文件不过也没事，若你实在想要瞎折腾，出错了的话，你就卸载，然后重装，再出错 ，再卸载，再重装，重复到自己不再想折腾为止。。 WS+TLS / HTTP2如果你使用了这两个协议，那么就会使用了脚本自带的 Caddy 集成不管如何，不建议直接去更改 Caddy 的配置：/etc/caddy/Caddyfile如果你需要配置其他网站相关，请将网站的配置文件放到 /etc/caddy/sites 目录下，然后重启 Caddy 进程即可，脚本默认生成的 Caddy 的配置会加载 /etc/caddy/sites 这个目录下的所有配置文件。所以，请将你的网站配置文件放到 /etc/caddy/sites 目录下，完完全全不需要去更改 /etc/caddy/Caddyfile记得重启 Caddy 进程：service caddy restart Caddy 插件相关本脚本集成了 Caddy，但不集成任何 Caddy 插件，如果你需要安装某些 Caddy 插件，你可以使用官方的 Caddy 安装脚本来一键安装。本人的脚本集成的 Caddy 的安装路径，跟 Caddy 官方的安装脚本是一致的。所以可以直接安装，不会有任何问题 举个例子，安装包含 http.filebrowser 插件的 Caddy，执行如下命令即可 1curl https://getcaddy.com | bash -s personal http.filebrowser 你可以在 https://caddyserver.com/download 找到 Caddy 更多插件和安装命令。 备注V2Ray 客户端配置文件 SOCKS 监听端口为 2333， HTTP 监听端口为 6666可能某些 V2Ray 客户端的选项或描述略有不同，但事实上，此脚本显示的 V2Ray 配置信息已经足够详细，由于客户端的不同，请对号入座。 备份为了避免由于不可抗拒的原因所造成本人主动删除脚本，所以建议请将本脚本 Fork 一份备份地址： https://github.com/233boy/v2ray/fork 安装方法，确保你已经 Fork 了脚本，将 233boy 修改成你的 Github 用户名 1234git clone https://github.com/233boy/v2ray -b mastercd v2raychmod +x install.sh./install.sh local 如果提示 git 命令不可用，那就自己安装咯，不会安装啊？我也不知道啊。哈哈 及时更新脚本为确保你能愉快使用，请留意使用 v2ray update.sh 命令来更新管理脚本。脚本难免会有 BUG，所以建议有空就检查一下更新情况。 转自：https://github.com/233boy/v2ray/wiki/V2Ray%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC]]></content>
+      <categories>
+        <category>ss</category>
+      </categories>
+      <tags>
+        <tag>ss</tag>
+        <tag>v2ray</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[女朋友问我怎么实现后端校验验证码]]></title>
     <url>%2F2019%2F05%2F09%2F%E5%A5%B3%E6%9C%8B%E5%8F%8B%E9%97%AE%E6%88%91%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E5%90%8E%E7%AB%AF%E6%A0%A1%E9%AA%8C%E9%AA%8C%E8%AF%81%E7%A0%81%2F</url>
     <content type="text"><![CDATA[风和日丽的早上开车和女朋友一起上班，说道一些有的没的技术，突然女朋友问我怎么实现后端校验验证码，我之前是看过一点别人写的逻辑，支支吾吾的结果没讲清楚，女朋友说我装逼失败，这怎么能忍，于是奋发图强学校了一下我们公司大佬的逻辑，原来核心就是开源的kaptcha。先来一段官方介绍，用来表示这是一篇技术博客： Kaptcha 简介Kaptcha 是一个非常实用的验证码生成工具，它是基于SimpleCaptcha的开源项目。通过调整Kaptcha配置可以生成各种样式的验证码。 使用Kaptcha可以方便的配置以下细节： 验证码的字体 验证码字体的大小 验证码字体的字体颜色 验证码内容的范围 验证码图片的大小，边框，边框粗细，边框颜色 验证码的干扰线 验证码的样式 好了，正式完了就开始说一下实现思路吧，其实也挺简单 前端请求后台接口，后台随机生成一个uuid给前端 前端拿到uuid之后，通过这个uuid请求后台，后台通过uuid生成一张验证码图片返给前端 [^这里说一下后端的实现：其实这个uuid是为了和图片做绑定而产生的，在数据库的表示如下图所示]: 登录校验验证码：用户登录填写账号、密码、验证码，带着uuid （重点：带着uuid，这个uuid其实就相当于这张图片验证码的一个识别，只有带着这个，后台才知道你用的是哪张验证码，才有办法去校验）调用后台登录接口，后台 通过带过来的uuid去查询这张图片验证码的文本验证码是多少，然后比对校验就可以了，是不是很简单。 当然验证码都是有失效时间的，还有验证码用完就删掉啊，这个就不多说了，聪明的人自然会懂，我女朋友那么聪明，应该会懂的 O(∩_∩)O~ 下面的是具体实现代码，留作备用观摩。 12345678910111213141516171819202122232425262728293031323334353637@GetMapping("captcha.jpg")public void captcha(HttpServletResponse response, @RequestParam String uuid) &#123; //1.进入函数 logger.info("-&gt; auth login: generate captcha"); //2 验证uuid格式 if(!TypeValidatorUtil.isUuid(uuid))&#123; logger.info("-- auth login: uuid not valid"); throw new CPException("uuid 不合法"); &#125; //3.response设置 response.setHeader("Cache-Control", "no-store, no-cache"); response.setContentType("image/jpeg"); try&#123; //4.生成图片验证码并将对应uuid和code保存数据库 BufferedImage image = authCaptchaService.getCaptcha(uuid); //5.图片验证码返回到前端 ServletOutputStream out = response.getOutputStream(); ImageIO.write(image, "jpg", out); //6.正常退出函数 logger.info("&lt;- auth login: generate captcha"); //7.关闭连接 IOUtils.closeQuietly(out); &#125;catch (IOException e)&#123; logger.error(e.getMessage()); throw new CPException("IO错误"); &#125;catch (Exception e)&#123; logger.error(e.getMessage()); throw new CPException("获取验证码失败"); &#125;&#125; 1234567891011121314151617@Overridepublic BufferedImage getCaptcha(String uuid) &#123; if(StringUtils.isBlank(uuid))&#123; throw new CPException("uuid不能为空"); &#125; //生成文字验证码 String code = producer.createText(); AuthCaptchaEntity captchaEntity = new AuthCaptchaEntity(); captchaEntity.setUuid(uuid); captchaEntity.setCode(code); //5分钟后过期 captchaEntity.setExpireTime(DateUtil.addDateMinutes(new Date(), 5)); authCaptchaDao.insertCaptcha(captchaEntity); return producer.createImage(code);&#125; 12345&lt;dependency&gt; &lt;groupId&gt;com.github.axet&lt;/groupId&gt; &lt;artifactId&gt;kaptcha&lt;/artifactId&gt; &lt;version&gt;$&#123;kaptcha.version&#125;&lt;/version&gt;&lt;/dependency&gt; 1234567891011121314151617181920/** * 生成验证码配置 * * @author zfan */@Configurationpublic class KaptchaConfig &#123; @Bean public DefaultKaptcha producer() &#123; Properties properties = new Properties(); properties.put(&quot;kaptcha.border&quot;, &quot;no&quot;); properties.put(&quot;kaptcha.textproducer.font.color&quot;, &quot;black&quot;); properties.put(&quot;kaptcha.textproducer.char.space&quot;, &quot;5&quot;); Config config = new Config(properties); DefaultKaptcha defaultKaptcha = new DefaultKaptcha(); defaultKaptcha.setConfig(config); return defaultKaptcha; &#125;&#125; 附： JCaptcha简介 JCapthca是一个开源的用来生成图形验证码的Java开源组件，它非常强大，不光是可以生成图片式的验证码，还可以生成声音式的。 JCaptcha是CAPTCHA里面的一个比较著名的项目。]]></content>
@@ -125,8 +149,8 @@
       <tags>
         <tag>随笔</tag>
         <tag>博客</tag>
-        <tag>linux</tag>
         <tag>ss</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -138,9 +162,9 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>linux</tag>
         <tag>学习</tag>
         <tag>命令</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -152,10 +176,10 @@
       </categories>
       <tags>
         <tag>随笔</tag>
+        <tag>ss</tag>
         <tag>linux</tag>
         <tag>docker</tag>
         <tag>Shadowsocks</tag>
-        <tag>ss</tag>
       </tags>
   </entry>
   <entry>
@@ -209,9 +233,9 @@
       </categories>
       <tags>
         <tag>随笔</tag>
+        <tag>Hexo</tag>
         <tag>学习</tag>
         <tag>命令</tag>
-        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -223,9 +247,9 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>linux</tag>
         <tag>学习</tag>
         <tag>命令</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -251,8 +275,8 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>linux</tag>
         <tag>ss</tag>
+        <tag>linux</tag>
         <tag>配置</tag>
         <tag>shadowsocks</tag>
       </tags>
