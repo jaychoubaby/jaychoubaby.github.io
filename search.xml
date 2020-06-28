@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[redis设计键让其映射到同一个slot]]></title>
+    <url>%2F2020%2F06%2F28%2Fredis%E8%AE%BE%E8%AE%A1%E9%94%AE%E8%AE%A9%E5%85%B6%E6%98%A0%E5%B0%84%E5%88%B0%E5%90%8C%E4%B8%80%E4%B8%AAslot%2F</url>
+    <content type="text"><![CDATA[redis设计键让其映射到同一个slot123456jedisCluster.sadd("&#123;jay&#125;aaa","71","73");jedisCluster.sadd("&#123;jay&#125;bbb","72","73");Set&lt;String&gt; set = jedisCluster.sinter("&#123;jay&#125;qqqq","&#123;jay&#125;ssss");System.out.println(JedisClusterCRC16.getSlot("&#123;jay&#125;qqqq"));System.out.println(JedisClusterCRC16.getSlot("&#123;jay&#125;ssss")); 解释：redis在使用hash算法将键映射到slot时，只会计算{}里面的内容，若{}内的内容相同，则将键映射到同一个slot 例子中{}内容均为materialType，这样在JedisClusterCRC16.getSlot(key）时得到相同的slot编码号。 这样就可以使用jedisCluster.sinter（key1,key2）方法取交集，避免了键在不同的slot时，该方法报错 起因： 批量删除redis key时如果key不在同一个solt内，会报错]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[使用Cloudflare中转V2Ray流量]]></title>
     <url>%2F2019%2F06%2F12%2F%E4%BD%BF%E7%94%A8Cloudflare%E4%B8%AD%E8%BD%ACV2Ray%E6%B5%81%E9%87%8F%2F</url>
     <content type="text"><![CDATA[担心 IP 被墙？或者不想 IP 被墙？是的！使用 Cloudflare 来中转 V2Ray 的 WebSocket 流量就行！由于使用了 Cloudflare 中转，所以墙根本不知道背后的 IP 是多少，你可以愉快的玩耍了~ 提醒如果你不是使用 移动宽带 的用户，那么使用 Cloudflare 中转的速度相对来说是比较慢的，这个是因为线路的问题，无解。警告警告警告该教程目前写得比较简陋，以后应该会增加详细图文教程V2Ray 的 WS + TLS 不是神话，如果你没学会走路就不要急着跑大佬。。。你如果是从来没接触过 V2Ray 的人一上来就开玩 WS + TLS你真的不怕摔跤吗你有解析过域名吗，知道什么是 A 记录吗，会修改 NS 吗。。如果不懂，那就先补上这些知识再往下看如果实在想玩 WS + TLS，请认认真真看教程教程真的写得比较简陋，如果实在折腾不成功，那也很正常的，改天再来或者直接放弃 这是一个提示真是无聊，折腾啥啊。买个搬瓦工 Just My Socks 先凑合用着就可以了，被墙自动换 IP，无须担心 IP 被墙！其他的等风声过了再说了，套什么 CF，速度慢到怀疑人生。 准备一个域名，建议使用免费域名确保域名已经可以在 Cloudflare 正常使用。在 Cloudflare 的 Overview 选项卡可以查看域名状态，请确保为激活状态，即是： Status: Active怎么 SSH 连接上被墙的 IP ? Xshell 在属性那里可以设置代理，或者你可以在一台没有被墙的境外 VPS 使用 iptables 转发数据到被墙的机器上，此处不细说了。 添加域名解析在 DNS 选项卡那边添加一个 A 记录的域名解析，假设你的域名是 233blog.com，并且想要使用 www.233blog.com 作为翻墙的域名那么在 DNS 那里配置，Name 写 www，IPv4 address 写你的 VPS IP，务必把云朵点灰，然后选择 Add Record 来添加解析记录即可(如果你已经添加域名解析，请务必把云朵点灰，即是 DNS only) OK，确保操作没有问题的话，继续 安装 V2Ray 如果你已经使用本人提供的 V2Ray 一键安装脚本并安装了 V2Ray，那就直接输入 v2ray config修改传输协议为 WebSocket + TLS 如果你并没有使用本站提供的 V2Ray 一键安装脚本来安装 V2Ray那么现在开始使用吧，最好用的 V2Ray 安装脚本，保证你满意使用 root 用户输入下面命令安装或卸载 1bash &lt;(curl -s -L https://git.io/v2ray.sh) 如果提示 curl: command not found ，那是因为你的小鸡没装 Curlubuntu/debian 系统安装 Curl 方法: apt-get update -y &amp;&amp; apt-get install curl -ycentos 系统安装 Curl 方法: yum update -y &amp;&amp; yum install curl -y安装好 curl 之后就能安装脚本了 之后选择安装，传输协议选择 WebSocket + TLS (即是选择 4 )，V2Ray 端口随便，不要是 80 和 443 即可，然后输入你的域名，域名解析 Y ，自动配置 TLS 也是 Y ，其他就默认吧，一路回车。等待安装完成如果你的域名没有正确解析，安装会失败，解析相关看上面的 添加域名解析 安装完成后会展示 V2Ray 的配置信息，并且会询问是否生成二维码等，不用管它，直接回车 然后输入 v2ray status 查看一下运行状态，请确保 V2Ray 和 Caddy 都在运行 如果没有问题的话，继续 设置 Crypto 和 开启中转确保 Cloudflare 的 Crypto 选项卡的 SSL 为 Full并且请确保 SSL 选项卡有显示 Universal SSL Status Active Certificate 这样的字眼，如果你的 SSL 选项卡没有显示这个，不要急，只是在申请证书，24 小时内可以搞定。 然后在 DNS 选项卡那里，把刚才点灰的那个云朵图标，点亮它，一定要点亮一定要点亮一定要点亮 云朵图标务必为橙色状态，即是 DNS and HTTP proxy(CDN) V2Ray 配置信息很好，现在接下来配置客户端使用输入 v2ray info 即可查看 V2Ray 的配置，如果你有使用某些 V2Ray 客户端，可以根据给出的配置的信息来配置使用了。赶紧测试吧 V2Ray 客户端使用教程：WindowsV2RayN使用教程 什么鬼？对啊，就是如此简单啊，要不然你以为啊。 备注如果你的 VPS 位置是在美国西海岸的话，速度应该还算可以吧，如果不是在美国西海岸，那么也许速度会很慢，不过好在不用担心 IP 被墙或者能让被墙的 IP 重生也挺好的。难道不是么？如果你使用移动网络的话，那么 Cloudflare 的中转节点可能会在香港，速度也许会不错 (不完全保证)。 无限域名备用懒得写了，自己悟吧…反正绝大多数人只要知道怎么把墙的 IP 救活就行…算啦，我还是提示一下吧，WebSocket 协议，80 端口，Cloudflare 的 Crypto 选项卡 SSL 为 Flexible如果没有太多必要，不需要折腾这 结束哇，没有图文教程你就看不懂的话，我能怎么办，我也很绝望，我更加迷茫 转自：https://github.com/233boy/v2ray/wiki/%E4%BD%BF%E7%94%A8Cloudflare%E4%B8%AD%E8%BD%ACV2Ray%E6%B5%81%E9%87%8F]]></content>
@@ -149,8 +160,8 @@
       <tags>
         <tag>随笔</tag>
         <tag>博客</tag>
-        <tag>ss</tag>
         <tag>linux</tag>
+        <tag>ss</tag>
       </tags>
   </entry>
   <entry>
@@ -168,21 +179,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux docker Shadowsocks 常规操作]]></title>
-    <url>%2F2019%2F01%2F25%2Flinux%20docker%20Shadowsocks%20%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[linux上跑ss，真的很简单第一步先装docker,CentOS最好是64位的，最好是CentOS7,6的话没试过应该有其他的办法 先检查内核版本 $ uname -r 返回的值大于3.10即可。 使用 sudo 或 root 权限的用户登入终端。 确保yum是最新的 $ yum update 安装 docker yum install docker -y 启动 docker 服务 service docker start chkconfig docker on 拉取 docker 镜像 docker pull oddrationale/docker-shadowsocks ! 运行 docker 镜像 docker run -d -p 12345:12345 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 12345 -k welcome -m aes-256-cfb -d参数允许 docker 常驻后台运行 -p来指定要映射的端口，这里端口号统一保持一致即可。例如：12345 -s服务器 IP 地址，不用动 -k后面设置你的 VPN 的密码，比如：welcome -m指定加密方式 运行docker ps查看容器是否已成功运行起来了。 docker的常用命令汇总1、docker的启动、停止、重启[root@localhost ~]# service docker restart Redirecting to /bin/systemctl restart docker.service [root@localhost ~]# service docker stop Redirecting to /bin/systemctl stop docker.service [root@localhost ~]# service docker start Redirecting to /bin/systemctl start docker.service 2、docker创建一个容器[root@localhost ~]# docker run -it -v /docker_test:/yufei --name yufei_6 centos [root@724e7701f0d4 /]# -i：允许我们对容器内的 (STDIN) 进行交互 -t：在新容器内指定一个伪终端或终端 -v：是挂在宿机目录， /docker_test是宿机目录，/yufei是当前docker容器的目录，宿机目录必须是绝对的。 --name：是给容器起一个名字，可省略，省略的话docker会随机产生一个名字 3、docker启动的容器列表[root@localhost ~]# docker ps CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 724e7701f0d4 centos &quot;/bin/bash&quot; 4 minutes ago Up 4 minutes yufei_6 f9097691663e centos &quot;/bin/bash&quot; 5 minutes ago Up 5 minutes yufei_5 [root@localhost ~]# 4、查看docker创建的所有容器[root@localhost ~]# docker ps -a CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 724e7701f0d4 centos &quot;/bin/bash&quot; 5 minutes ago Up 5 minutes yufei_6 f9097691663e centos &quot;/bin/bash&quot; 6 minutes ago Up 6 minutes yufei_5 e59a540fb979 centos &quot;/bin/base&quot; 6 minutes ago Created yufei_4 ff49dfedea4f centos &quot;/bin/bash&quot; 2 hours ago Exited (137) 10 minutes ago yufei_03 d2cc70abb5a5 centos &quot;/bin/bash&quot; 2 hours ago Exited (127) 2 hours ago yufei_02 2d48fc5b7c17 centos &quot;/bin/bash&quot; 2 hours ago Exited (127) 2 hours ago yufei_01 [root@localhost ~]# 5、启动、停止、重启某个docker 容器[root@localhost ~]# docker start yufei_01 yufei_01 [root@localhost ~]# docker stop yufei_01 yufei_01 [root@localhost ~]# docker restart yufei_01 yufei_01 [root@localhost ~]# 6、查看指定容器的日志记录[root@back bin]# docker ps CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES baa114bbd3cd oddrationale/docker-shadowsocks &quot;/usr/local/bin/ss...&quot; 28 minutes ago Up 28 minutes 0.0.0.0:9527-&gt;9527/tcp eloquent_goldwasser [root@back bin]# docker logs -f baa114bbd3cd 7、删除某个容器，若正在运行，需要先停止[root@localhost ~]# docker rm yufei_01 Error response from daemon: You cannot remove a running container 2d48fc5b7c17b01e6247cbc012013306faf1e54f24651d5e16d6db4e15f92d33. Stop the container before attempting removal or use -f [root@localhost ~]# docker stop yufei_01 yufei_01 [root@localhost ~]# docker rm yufei_01 yufei_01 [root@localhost ~]# 8、删除所有容器[root@localhost ~]# docker rm $(docker ps -a -q) Error response from daemon: You cannot remove a running container 724e7701f0d4a830167e21f75b470235a0e408fd6cc2913403426e96f69cba11. Stop the container before attempting removal or use -f Error response from daemon: You cannot remove a running container f9097691663ee36f9d2ee56afbdcca0eeb8b63e5590ddf18c0c42954c93b9f06. Stop the container before attempting removal or use -f [root@localhost ~]# [root@localhost ~]# [root@localhost ~]# docker stop yufei_6 yufei_6 [root@localhost ~]# docker stop yufei_5 yufei_5 [root@localhost ~]# docker rm $(docker ps -a -q) 724e7701f0d4 f9097691663e [root@localhost ~]# 9、镜像列出镜像:docker image ls或docker images列出所有镜像：docker image ls -a列出所有镜像：docker images -a查看镜像、容器、数据卷所占用的空间:docker system df删除镜像:docker image rm]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>ss</tag>
-        <tag>linux</tag>
-        <tag>docker</tag>
-        <tag>Shadowsocks</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Mac常用软件收藏]]></title>
     <url>%2F2019%2F01%2F25%2FMac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%94%B6%E8%97%8F%2F</url>
     <content type="text"><![CDATA[软件收藏 xclient | 常用软件都有，个别因为版权问题下架，所有安装包解压需要密码 xclient.info 爱情守望者 | 差不多，安装包没有密码 史蒂芬周的博客 | 一个博客，居然还收费下载，有的也免费，随便看看还行，主要用来看软件更新日志 mac-torrent-download | 神站不解释，不过广告超多，而且都是强制广告，需翻墙 油猴脚本 | 油猴的脚本站 MSDN | 可以下载到纯净的系统安装包 旧版iTunes | 可以下载最后一个支持下载安装包的iTunes Homebrew | macOS 缺失的软件包的管理器 freedownloadmanager | 一个全平台的下载器（顶替迅雷） idea.lanyus | 破解idea专用 idea 2018.1破解激活方法,有效期至2099年 | 目前有效 sequelpro | mac上一个mysql图形化界面工具，超喜欢，可惜不更新了 IINA | Mac上一个开源播放器，超好用 PicGo | 全平台图床工具 Mos | 一个用于在 MacOS 上平滑你的鼠标滚动效果或单独设置滚动方向的小工具, 让你的滚轮爽如触控板 ieaseMusic | Mac上开源的网易云播放器，界面不错 Photon | 基于aria2的轻量级多线程下载器。 迅雷 U 享版 | 迅雷 U 享版 irreader | 订阅网页、RSS和Podcast，具备急速的阅读体验，高品质、免费、无广告、多平台的RSS阅读器。 Glacier | 展示macos图标 Easy-to-RSS | 功能：获取网页RSS，复制到剪贴板并打开该RSS网页 Background Music | mac上可以单独调节各种音量大小的软件 壁纸网站 https://interfacelift.com/wallpaper/downloads/date/any/ | 质量高，更新慢 https://unsplash.com/ | 质量中等，更新较快 https://alpha.wallhaven.cc/random?page=2 https://wallions.com/search https://www.lifeofpix.com/ https://visualhunt.com/ https://wallions.com/search/mountain http://streetwill.co/ https://unsplash.com/@joshshutler?utm_source=osx&amp;utm_medium=menuItem&amp;utm_campaign=wallcat https://lai.yuweining.cn/archives/575/]]></content>
@@ -194,6 +190,21 @@
         <tag>MacBook</tag>
         <tag>收藏</tag>
         <tag>软件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux docker Shadowsocks 常规操作]]></title>
+    <url>%2F2019%2F01%2F25%2Flinux%20docker%20Shadowsocks%20%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[linux上跑ss，真的很简单第一步先装docker,CentOS最好是64位的，最好是CentOS7,6的话没试过应该有其他的办法 先检查内核版本 $ uname -r 返回的值大于3.10即可。 使用 sudo 或 root 权限的用户登入终端。 确保yum是最新的 $ yum update 安装 docker yum install docker -y 启动 docker 服务 service docker start chkconfig docker on 拉取 docker 镜像 docker pull oddrationale/docker-shadowsocks ! 运行 docker 镜像 docker run -d -p 12345:12345 oddrationale/docker-shadowsocks -s 0.0.0.0 -p 12345 -k welcome -m aes-256-cfb -d参数允许 docker 常驻后台运行 -p来指定要映射的端口，这里端口号统一保持一致即可。例如：12345 -s服务器 IP 地址，不用动 -k后面设置你的 VPN 的密码，比如：welcome -m指定加密方式 运行docker ps查看容器是否已成功运行起来了。 docker的常用命令汇总1、docker的启动、停止、重启[root@localhost ~]# service docker restart Redirecting to /bin/systemctl restart docker.service [root@localhost ~]# service docker stop Redirecting to /bin/systemctl stop docker.service [root@localhost ~]# service docker start Redirecting to /bin/systemctl start docker.service 2、docker创建一个容器[root@localhost ~]# docker run -it -v /docker_test:/yufei --name yufei_6 centos [root@724e7701f0d4 /]# -i：允许我们对容器内的 (STDIN) 进行交互 -t：在新容器内指定一个伪终端或终端 -v：是挂在宿机目录， /docker_test是宿机目录，/yufei是当前docker容器的目录，宿机目录必须是绝对的。 --name：是给容器起一个名字，可省略，省略的话docker会随机产生一个名字 3、docker启动的容器列表[root@localhost ~]# docker ps CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 724e7701f0d4 centos &quot;/bin/bash&quot; 4 minutes ago Up 4 minutes yufei_6 f9097691663e centos &quot;/bin/bash&quot; 5 minutes ago Up 5 minutes yufei_5 [root@localhost ~]# 4、查看docker创建的所有容器[root@localhost ~]# docker ps -a CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 724e7701f0d4 centos &quot;/bin/bash&quot; 5 minutes ago Up 5 minutes yufei_6 f9097691663e centos &quot;/bin/bash&quot; 6 minutes ago Up 6 minutes yufei_5 e59a540fb979 centos &quot;/bin/base&quot; 6 minutes ago Created yufei_4 ff49dfedea4f centos &quot;/bin/bash&quot; 2 hours ago Exited (137) 10 minutes ago yufei_03 d2cc70abb5a5 centos &quot;/bin/bash&quot; 2 hours ago Exited (127) 2 hours ago yufei_02 2d48fc5b7c17 centos &quot;/bin/bash&quot; 2 hours ago Exited (127) 2 hours ago yufei_01 [root@localhost ~]# 5、启动、停止、重启某个docker 容器[root@localhost ~]# docker start yufei_01 yufei_01 [root@localhost ~]# docker stop yufei_01 yufei_01 [root@localhost ~]# docker restart yufei_01 yufei_01 [root@localhost ~]# 6、查看指定容器的日志记录[root@back bin]# docker ps CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES baa114bbd3cd oddrationale/docker-shadowsocks &quot;/usr/local/bin/ss...&quot; 28 minutes ago Up 28 minutes 0.0.0.0:9527-&gt;9527/tcp eloquent_goldwasser [root@back bin]# docker logs -f baa114bbd3cd 7、删除某个容器，若正在运行，需要先停止[root@localhost ~]# docker rm yufei_01 Error response from daemon: You cannot remove a running container 2d48fc5b7c17b01e6247cbc012013306faf1e54f24651d5e16d6db4e15f92d33. Stop the container before attempting removal or use -f [root@localhost ~]# docker stop yufei_01 yufei_01 [root@localhost ~]# docker rm yufei_01 yufei_01 [root@localhost ~]# 8、删除所有容器[root@localhost ~]# docker rm $(docker ps -a -q) Error response from daemon: You cannot remove a running container 724e7701f0d4a830167e21f75b470235a0e408fd6cc2913403426e96f69cba11. Stop the container before attempting removal or use -f Error response from daemon: You cannot remove a running container f9097691663ee36f9d2ee56afbdcca0eeb8b63e5590ddf18c0c42954c93b9f06. Stop the container before attempting removal or use -f [root@localhost ~]# [root@localhost ~]# [root@localhost ~]# docker stop yufei_6 yufei_6 [root@localhost ~]# docker stop yufei_5 yufei_5 [root@localhost ~]# docker rm $(docker ps -a -q) 724e7701f0d4 f9097691663e [root@localhost ~]# 9、镜像列出镜像:docker image ls或docker images列出所有镜像：docker image ls -a列出所有镜像：docker images -a查看镜像、容器、数据卷所占用的空间:docker system df删除镜像:docker image rm]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>linux</tag>
+        <tag>ss</tag>
+        <tag>docker</tag>
+        <tag>Shadowsocks</tag>
       </tags>
   </entry>
   <entry>
@@ -275,8 +286,8 @@
       </categories>
       <tags>
         <tag>随笔</tag>
-        <tag>ss</tag>
         <tag>linux</tag>
+        <tag>ss</tag>
         <tag>配置</tag>
         <tag>shadowsocks</tag>
       </tags>
